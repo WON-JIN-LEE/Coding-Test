@@ -1,2 +1,1 @@
-
-console.log((1s2))
+console.log(Date());
