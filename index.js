@@ -1,33 +1,11 @@
-function solution(d, budget) {
-    var answer = 0;
-    let sum = 0;
-    d.sort((a, b) => a - b);
+function solution(lottos, win_nums) {
+    const RANK = [6, 6, 5, 4, 3, 2, 1];
+    let minCount = lottos.filter(element => win_nums.includes(element)).length;
+    console.log(lottos.filter(element => win_nums.includes(element)));
+    let unkwonNum = lottos.filter(element => 0 === element).length;
+    let maxCount = minCount + unkwonNum;
     
-    d.forEach(item => {
-        sum += item;
-        if (sum <= budget) { answer++;}
-    })
-    return answer;
+    return [RANK[maxCount], RANK[minCount]];
 }
-
-
-function solution(d, budget) {
-    let answer = 0;
-    d.sort((a, b) => a - b);
-    d.reduce((acc, currentValue) => {
-        if (acc + currentValue <= budget) { answer++;}
-        return acc + currentValue;
-    }, 0)
-    return answer;
-}
-
-
-function solution(d, budget) {
-    let answer = [];
-    d.sort((a, b) => a - b);
-    d.reduce((acc, currentValue, i) => {
-        if (acc + currentValue <= budget) { answer.push(i);}
-        return acc + currentValue;
-    }, 0)
-    return answer.length;
-}
+let a = [undefined];
+console.log(0 === undefined);
