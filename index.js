@@ -1,11 +1,23 @@
-function solution(lottos, win_nums) {
-    const RANK = [6, 6, 5, 4, 3, 2, 1];
-    let minCount = lottos.filter(element => win_nums.includes(element)).length;
-    console.log(lottos.filter(element => win_nums.includes(element)));
-    let unkwonNum = lottos.filter(element => 0 === element).length;
-    let maxCount = minCount + unkwonNum;
-    
-    return [RANK[maxCount], RANK[minCount]];
+function solution(nums) {
+    var result = 0;
+    var sum = [];
+
+    for (var i = 0; i < nums.length; i++) {
+        for (var j = i + 1; j < nums.length; j++) {
+            for (var k = j + 1; k < nums.length; k++) {
+                let temp = nums[i] + nums[j] + nums[k]
+                if (isPrime(temp)) {sum.push(temp)};
+
+            }
+        }
+    }
+    return sum.length;
 }
-let a = [undefined];
-console.log(0 === undefined);
+
+
+function isPrime(n) {
+for (var i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0) {return false;}
+    }
+    return true;
+}
