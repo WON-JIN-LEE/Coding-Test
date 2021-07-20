@@ -1,4 +1,6 @@
-const object = ['a', 'b', 'a', 'b', 'c'];
-for (const prop in object) {
-    console.log(prop);
+function solution(nums) {
+    var halfLen = nums.length/2;
+    const {size} =new Set(nums);
+    
+    return size > halfLen ? halfLen : size;
 }
