@@ -1,4 +1,6 @@
-const str = "hello world";
-str.replace('world', 'Lee');
-console.log(str);
-console.log(str.replace('world', 'Lee'));
+function solution(A,B){
+    A.sort((a,b) => a-b);
+    B.sort((a,b) => b-a);
+    
+    return A.reduce((acc, cur,idx) => acc + cur * B[idx] , 0 );
+}
