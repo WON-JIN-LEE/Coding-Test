@@ -1,22 +1,16 @@
-function solution(n, lost, reserve) {
+function solution(s){
+    var answer = 0;
+    const arrStr = s.split("");
+    if (arrStr[0] == ")" || arrStr[arrStr.length-1] == "(" ) return false;
     
-    const realLost = lost.filter(ele => !reserve.includes(ele));
-    const realReserve = reserve.filter(ele => !lost.includes(ele));
-
-    const noWear = realLost.filter((ele)=> {
-
-        for (let i = 0; i < realReserve.length;i++){
-            if (Math.abs(realReserve[i] - ele) === 1) {
-                realReserve.splice(i, 1);
-                return false;
-            }
-                
-        }
-        return true;
-    });
-
-    return n-noWear.length;
+    for(const ele of arrStr){
+        (ele == "(") ? answer++ : answer--;
+        if (answer<0) return false;
+    };
+    return (answer === 0) ?  true : false ;
+    
 }
 
-solution(5, [2, 4], [1, 3, 5]);
-console.log(solution(5, [2, 4], [1, 3, 5]));
+
+console.log(solution("()))((()"));
+
