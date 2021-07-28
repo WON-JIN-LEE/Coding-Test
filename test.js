@@ -1,10 +1,16 @@
-function solution(s) {
-  var answer = 0;
-  if (s[-1] == "(") return false;
-
-  for (const ele of s) {
-    ele == "(" ? answer++ : answer--;
-    if (answer < 0) return false;
-  }
-  return answer === 0 ? true : false;
+function solution(n, t, m, p) {
+    var answer = '';
+    let num = 0,
+        binary = '';
+    while (binary.length < t * m) {
+        binary += (num.toString(n).toUpperCase());
+        ++num;
+    }
+    for (let i = p - 1; i < t * m; i += m) {
+        answer += binary[i];
+    }
+    return answer;
 }
+
+let num = 10;
+console.log(num.toString(16).toUpperCase());
