@@ -1,16 +1,31 @@
-function solution(n, t, m, p) {
-    var answer = '';
-    let num = 0,
-        binary = '';
-    while (binary.length < t * m) {
-        binary += (num.toString(n).toUpperCase());
-        ++num;
+function solution(files) {
+    let answer = [];
+    //HEAD, NUMBER, TAIL 구분 NUMBER를 기준으로 앞/뒤 구분 search(정규식)
+    let len = files.length;
+    const reg = /(\d+)/g; //숫자가 1개이상 매칭되는 정규식(메모리 고려)
+    for (let i = 0; i < len; i++) {
+        answer.push({ index: i, value: files[i].split(reg) }); //[{index:0~n, value:[HEAD, NUMBER, TAIL]}]
     }
-    for (let i = p - 1; i < t * m; i += m) {
-        answer += binary[i];
-    }
-    return answer;
+
+    answer.sort(fileSort);
+    return answer.map(obj => obj.value.join(''));
 }
 
-let num = 10;
-console.log(num.toString(16).toUpperCase());
+function fileSort(a, b) {
+    const head_a = a.value[0].toLowerCase();
+    const head_b= b.value[0].toLowerCase();
+
+    if (head_a < head_b) return -1;
+    if (head_a > head_b) return 1;
+    
+    const numA = parseInt(a.value[1]);
+    const numB = parseInt(b.value[1]);
+        
+    if (numA < numB) return -1;
+    if (numA > numB) return 1;
+    
+    if (a.index < b.index) return -1;
+    else return 1;
+    
+    
+}
