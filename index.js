@@ -1,52 +1,73 @@
-function solution(m, n, board) {
-    //1. 먼저 배열의 문자열을 2차원 배열로 나눈다.
-    board = board.map((v) => v.split(""));
+function solution(info, query) {
+    const answer = [];
+    const infoMap = {};
 
-    //2. 배열에서 지워질 블록의 인덱스를 구해 arr안에 넣는다.
-    while (true) {
-        const arr = [];
-        for (let i = 0; i < m - 1; i++) {
-            for (let j = 0; j < n - 1; j++) {
-                if (board[i][j] && board[i][j] === board[i + 1][j] && board[i][j] === board[i][j + 1] && board[i][j] === board[i + 1][j + 1]) {
-                    arr.push([i, j]);
-                }
-            }
-        }
-        // 답을 구하는 로직 : 깨질 블록이 없다면 0인 개수를 세고 리턴한다.
+    function combination(array, score, start) {
 
-        if (!arr.length) {
-            return board
-                .flat()
-                .filter((v) => !v)
-                .length;
-            // return [].concat(...board).filter((v) => !v).length;
+        const key = array.join("");
+        const value = infoMap[key]; //값 있는지 없는지 확인해주기
+
+        if (value) {
+            //값이 있으면 추가하고
+            infoMap[key].push(score);
+        } else {
+            //값이 없으면 프로퍼티 만들어줘야 됨
+            infoMap[key] = [score];
         }
 
-        // 3. 배열에서 지워질 블록을 0으로 바꾼다.
-        for (let i = 0; i < arr.length; i++) {
-            const col = arr[i][0];
-            const row = arr[i][1];
-            board[col][row] = 0;
-            board[col][row + 1] = 0;
-            board[col + 1][row] = 0;
-            board[col + 1][row + 1] = 0;
+        for (let i = start; i < array.length; i++) {
+            const temp = [...array]; //얕은 복사
+            temp[i] = "-";
+            combination(temp, score, i + 1);
         }
-
-        // 4. 깨진 블록을 없애고 위에서 블록을 당겨온다.
-        for (let i = m - 1; i > 0; i--) {
-            if (!board[i].some((v) => !v)) 
-                continue;
-            
-            for (let j = 0; j < n; j++) {
-                for (let k = i - 1; k >= 0 && board[i][j] === 0; k--) {
-                    if (board[k][j]) {
-                        board[i][j] = board[k][j];
-                        board[k][j] = 0;
-                        break;
-                    }
-                }
-            }
-        }
-
     }
+
+    for (const e of info) {
+        const splited = e.split(" ");
+        const score = Number(splited.pop());
+        combination(splited, score, 0);
+    }
+
+    for (const key in infoMap) {
+        //오름차순 정렬합니다.
+        infoMap[key] = infoMap[key].sort((a, b) => a - b);
+    }
+
+    //query 조건에 맞는 info 추출
+    for (const e of query) {
+        const splited = e
+            .replace(/ and /g, " ")
+            .split(" ");
+        const score = Number(splited.pop());
+        const key = splited.join("");
+        const array = infoMap[key];
+
+        if (array) {
+            console.log(score)
+            console.log(array)
+
+            let start = 0;
+            let end = array.length;
+
+            //이분탐색
+            while (start < end) {
+                const mid = Math.floor((start + end) / 2);
+                if (array[mid] >= score) {
+                    end = mid;
+                } else if (array[mid] < score) {
+                    start = mid + 1;
+                }
+            }
+            console.log(start)
+            const result = array.length - start;
+            answer.push(result);
+        } else {
+            answer.push(0);
+        }
+    }
+
+    return answer;
 }
+
+const infoMap = new Map();
+  console.log(typeof infoMap)
