@@ -1,73 +1,51 @@
-function solution(info, query) {
-    const answer = [];
-    const infoMap = {};
+function solution(bridge_length, weight, truck_weights) {
+    // 걸린 시간
+    let time = 0;
 
-    function combination(array, score, start) {
+    // queue: 현재 다리상태, queue의 길이는 다리 길이로 하고 다리 하나하나를 0으로 초기화.
+    const bridge = Array.from({length: bridge_length}, () => 0);
 
-        const key = array.join("");
-        const value = infoMap[key]; //값 있는지 없는지 확인해주기
+    while (bridge.length) {
+        bridge.shift();
+        time += 1;
 
-        if (value) {
-            //값이 있으면 추가하고
-            infoMap[key].push(score);
-        } else {
-            //값이 없으면 프로퍼티 만들어줘야 됨
-            infoMap[key] = [score];
-        }
+        if (truck_weights.length) {
+            const sum = bridge.reduce((acc, cur) => acc + cur, 0);
 
-        for (let i = start; i < array.length; i++) {
-            const temp = [...array]; //얕은 복사
-            temp[i] = "-";
-            combination(temp, score, i + 1);
-        }
-    }
-
-    for (const e of info) {
-        const splited = e.split(" ");
-        const score = Number(splited.pop());
-        combination(splited, score, 0);
-    }
-
-    for (const key in infoMap) {
-        //오름차순 정렬합니다.
-        infoMap[key] = infoMap[key].sort((a, b) => a - b);
-    }
-
-    //query 조건에 맞는 info 추출
-    for (const e of query) {
-        const splited = e
-            .replace(/ and /g, " ")
-            .split(" ");
-        const score = Number(splited.pop());
-        const key = splited.join("");
-        const array = infoMap[key];
-
-        if (array) {
-            console.log(score)
-            console.log(array)
-
-            let start = 0;
-            let end = array.length;
-
-            //이분탐색
-            while (start < end) {
-                const mid = Math.floor((start + end) / 2);
-                if (array[mid] >= score) {
-                    end = mid;
-                } else if (array[mid] < score) {
-                    start = mid + 1;
-                }
+            if (sum + truck_weights[0] <= weight) {
+                bridge.push(truck_weights.shift());
+            } else {
+                bridge.push(0);
             }
-            console.log(start)
-            const result = array.length - start;
-            answer.push(result);
-        } else {
-            answer.push(0);
         }
     }
-
-    return answer;
+    return time;
 }
 
-const infoMap = new Map();
-  console.log(typeof infoMap)
+
+function solution(bridge_length, weight, truck_weights) {
+  // '다리'를 모방한 큐에 간단한 배열로 정리 : [트럭무게, 얘가 나갈 시간].
+  let time = 0, qu = [[0, 0]], weightOnBridge = 0;
+
+  // 대기 트럭, 다리를 건너는 트럭이 모두 0일 때 까지 다음 루프 반복
+  while (qu.length > 0 || truck_weights.length > 0) {
+    // 1. 현재 시간이, 큐 맨 앞의 차의 '나갈 시간'과 같다면 내보내주고,
+    //    다리 위 트럭 무게 합에서 빼준다.
+    if (qu[0][1] === time) weightOnBridge -= qu.shift()[0];
+
+    if (weightOnBridge + truck_weights[0] <= weight) {
+      // 2. 다리 위 트럭 무게 합 + 대기중인 트럭의 첫 무게가 감당 무게 이하면 
+      //    다리 위 트럭 무게 업데이트, 큐 뒤에 [트럭무게, 이 트럭이 나갈 시간] 추가.
+      weightOnBridge += truck_weights[0];
+      qu.push([truck_weights.shift(), time + bridge_length]);
+    } else {
+      // 3. 다음 트럭이 못올라오는 상황이면 얼른 큐의
+      //    첫번째 트럭이 빠지도록 그 시간으로 점프한다.
+      //    참고: if 밖에서 1 더하기 때문에 -1 해줌
+      if (qu[0]) time = qu[0][1] - 1;
+    }
+    // 시간 업데이트 해준다.
+    time++;
+  }
+  return time;
+}
