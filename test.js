@@ -1,15 +1,29 @@
-function solution(n) {
-    const answer = new Array(n).fill().map((_, i )=> new Array(i+1));
-    
-    let count = 0;
-    let row = -1;
-    let col = 0;
-    
-    for(let i = n; i>0; i--){
-           for(let i = n; i > 0; i--) answer[++row][col] = ++count;
-           for(let i = n-1; i > 0; i--) answer[row][++col] = ++count;
-           for(let i = n-2; i > 0; i--) answer[--row][--col] = ++count;
-        n -= 3;
+const pair = {'}': '{', ']': '[', ')': '(' };
+
+function solution(s) {
+    const arr = s.split('');
+    const sLen = arr.length;
+    let result = 0;
+    const isValid = arr => {
+        const stack = [];
+
+        for (let i = 0; i < sLen ; i++) {
+            const c = arr[i];
+            if (pair[c] === undefined) stack.push(c);
+            else {
+                if (pair[c] !== stack[stack.length - 1]) return false;
+                stack.pop();
+            }
+        }
+
+        if (stack.length) return false;
+        return true;
     }
-    return answer.flat();
+
+    for (let i = 0; i < s.length; i++) {
+        if (isValid(arr)) result++;
+        arr.push(arr.shift());
+    }
+
+    return result;
 }
