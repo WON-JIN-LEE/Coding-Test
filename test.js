@@ -1,29 +1,23 @@
-const pair = {'}': '{', ']': '[', ')': '(' };
+function solution(relation) {
+    const answer = new Set();
+    const cols = relation[0].length;
+    const check = 1 << cols;
 
-function solution(s) {
-    const arr = s.split('');
-    const sLen = arr.length;
-    let result = 0;
-    const isValid = arr => {
-        const stack = [];
+    //유일성을 만족하는 키
+    for (let i = 1; i < check; i++) {
+        let temp = relation.map(x => x.filter((_, col) => i & (1 << col)).join(""));
+        const set = new Set(temp);
 
-        for (let i = 0; i < sLen ; i++) {
-            const c = arr[i];
-            if (pair[c] === undefined) stack.push(c);
-            else {
-                if (pair[c] !== stack[stack.length - 1]) return false;
-                stack.pop();
+        if (temp.length === set.size) answer.add(i);
+    }
+
+    // 최소성 맞는 키는 남기고 맞지 않는 키 제거
+        for (let x of answer) {
+            for (let y of answer) {
+                if (x >= y) continue;
+                if ((x & y) === x) answer.delete(y);
+                }
             }
-        }
-
-        if (stack.length) return false;
-        return true;
-    }
-
-    for (let i = 0; i < s.length; i++) {
-        if (isValid(arr)) result++;
-        arr.push(arr.shift());
-    }
-
-    return result;
+    
+    return answer.size;
 }
