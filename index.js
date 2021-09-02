@@ -1,36 +1,31 @@
-let fs = require("fs");
-let input = fs
+const fs = require("fs");
+const input = fs
     .readFileSync("/dev/stdin")
     .toString()
-    .trim()
     .split("\n");
 
-const count = Number(input[0]);
-let stackNumber = 1;
+const len = input[0];
+const arr = [];
 const stack = [];
-const result = [];
+let answer = "";
 
-for (let i = 1; i <= count; i++) {
-    let target = Number(input[i])
-
-    if (stackNumber <= target) {
-        while (stackNumber <= target) {
-            stack.push(stackNumber);
-            console.log("+");
-
-            if (stackNumber === target) {
-                stack.pop();
-                console.log("-");
-            }
-            stackNumber++;
-        }
-    }else{
-        if (stack[stack.length - 1] !== target) {
-            console.log("NO");
-            break;
-        } else {
-            stack.pop();
-            console.log("-");
-        }
+for (let i = 0; i < len; i++) {
+    arr[i] = i + 1;
+}
+for (let j = 1; j <= len; j++) {
+    //4
+    let count = 1;
+    while (count <= len && stack[stack.length - 1] != input[j]) {
+        stack.push(arr.shift());
+        answer += "+\n";
+        count++;
+    }
+    if (stack[stack.length - 1] == input[j]) {
+        stack.pop();
+        answer += "-\n";
+    } else {
+        answer = "NO";
+        break;
     }
 }
+console.log(answer);
