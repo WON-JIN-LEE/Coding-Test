@@ -1,31 +1,34 @@
-const fs = require("fs");
-const input = fs
-    .readFileSync("/dev/stdin")
-    .toString()
-    .split("\n");
+const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); //입력메세지 받음
 
-const len = input[0];
-const arr = [];
-const stack = [];
-let answer = "";
+input.shift();
 
-for (let i = 0; i < len; i++) {
-    arr[i] = i + 1;
-}
-for (let j = 1; j <= len; j++) {
-    //4
-    let count = 1;
-    while (count <= len && stack[stack.length - 1] != input[j]) {
-        stack.push(arr.shift());
-        answer += "+\n";
-        count++;
-    }
-    if (stack[stack.length - 1] == input[j]) {
-        stack.pop();
-        answer += "-\n";
-    } else {
-        answer = "NO";
-        break;
-    }
-}
-console.log(answer);
+const queue = [];
+
+const fun = {
+  pop: function () {
+    return queue.shift() || -1;
+  },
+  size: function () {
+    return queue.length;
+  },
+  empty: function () {
+    return queue[0] ? 0 : 1;
+  },
+  front: function () {
+    return queue[0] || -1;
+    },
+  back: function () {
+    return queue[queue.length-1] || -1;
+  },
+  push: function (item) {
+    queue.push(item.split(" ")[1]);
+    return "";
+  },
+};
+
+const result = input.reduce(
+  (acc, v) => acc + (fun[v] ? `${fun[v]()}\n` : fun.push(v)),
+  ""
+);
+
+console.log(result);

@@ -1,19 +1,24 @@
-const fs = require("fs");
-const input = fs.readFileSync("/dev/stdin").toString().split("\n");
+const input = require("fs").readFileSync("/dev/stdin").toString(); //입력메세지 받음
 
-const lStack = input[0].split("");
-const rStack = [];
 
-const len = parseInt(input[1]);
+const main = (input) => {
+    const [N, K] = input.split(" ").map(x=>Number(x));
+    const arr = Array.from({length : N},((_, i) => i + 1));
 
-for (let i = 2; i < 2 + len; i++) {
-    const [cmd, value] = input[i].split(" ");
+    let answer = "<";
 
-    if (cmd === "L" && lStack.length) rStack.push(lStack.pop());
-    else if (cmd === "D" && rStack.length) lStack.push(rStack.pop());
-    else if (cmd === "B" && lStack.length) lStack.pop();
-    else if (cmd === "P") lStack.push(value);
-}
+    while (arr.length) {
+        for (let i = 0; i < K; i++) {
+            arr.push(arr.shift());
+        }
 
-const answer = lStack.join("") + rStack.reverse().join("");
-console.log(answer);
+        if (arr.length === 1) {
+            answer += `${arr.pop()}>`;
+        } else {
+            answer += `${arr.pop()}, `;
+        }
+    }
+    console.log(answer);
+};
+
+main(input);
