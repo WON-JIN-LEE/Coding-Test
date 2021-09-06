@@ -1,34 +1,39 @@
-const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); //입력메세지 받음
+// const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); //입력메세지 받음
+const input = `10 4200
+1
+5
+10
+50
+100
+500
+1000
+5000
+10000
+50000`.split("\n"); //입력메세지 받음
 
-input.shift();
+const [N, K] = input.shift().split(" ");
 
-const queue = [];
+const coin = function (input) {
+    input = input.map(Number);
+    let k = K;
+    let count = 0;
 
-const fun = {
-  pop: function () {
-    return queue.shift() || -1;
-  },
-  size: function () {
-    return queue.length;
-  },
-  empty: function () {
-    return queue[0] ? 0 : 1;
-  },
-  front: function () {
-    return queue[0] || -1;
-    },
-  back: function () {
-    return queue[queue.length-1] || -1;
-  },
-  push: function (item) {
-    queue.push(item.split(" ")[1]);
-    return "";
-  },
-};
+    for (let i = N - 1; i >= 0; i--){
 
-const result = input.reduce(
-  (acc, v) => acc + (fun[v] ? `${fun[v]()}\n` : fun.push(v)),
-  ""
-);
+        const v = input[i];
+        const quotient = Math.floor(k / v);
+        if (quotient === 0) { continue; }
+        
+        
+        count += quotient;
+            k = k % v;
+        
+        
+        if(k === 0) break;
 
-console.log(result);
+    }
+
+    console.log(count);
+
+}
+coin(input);
