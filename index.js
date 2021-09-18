@@ -15,24 +15,20 @@
 // });
 
 
-const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); //입력메세지 받음
-const input = `5
-3 1 4 3 2`.split("\n"); //입력메세지 받음
+// const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
+const input = `55+50-40`.split("\n"); 
+console.log(input);
+
 
 function solution(arr) {
-    let timeArr = arr[1].split(" ").sort((a,b)=>a-b).map(Number);
-    console.log(timeArr);
-
-    timeArr=timeArr.map((_, i, arr) => {
-        let sum = 0;
-        for (let x = 0; x <=i; x++) {
-            sum += arr[x];
-        }
-        return sum;
-    });
-
-  const answer = timeArr.reduce((sum, cur) => sum + cur, 0);
-    console.log(answer);
+  const numbers = input[0].split("-").map((str) => // -를 기준으로 분리해서 분리한 문자열을 모두 탐색
+    str.split("+")
+       .map(Number)
+       .reduce((s, v) => s + v, 0) // +를 기준으로 나눠서 모두 더해준다.
+    ); // -를 기준으로 분리된 문자열의 갯수만큼 numbers 배열의 원소 개수가 된다.
+    console.log(numbers);
+  let answer = numbers.reduce((s, v,) => s - v, numbers[0]*2); // 첫번째 원소에서 나머지 모든 원소를 빼준다.
+      console.log(answer);
 }
 
 solution(input);
