@@ -19,27 +19,52 @@
 // });
 
 
-const input = `3 16`.split("\n"); 
-  solution(input);
+const input = `25 12`.split("\n");
+solution(input);
 
-function solution(arr) {
-    const [M, N] = arr[0].split(" ").map(Number);
-    const answer = [];
 
-    for (let i = M; i <= N; i++){
-        if (isPrime(i)) {
-            answer.push(i);
-        }
+function solution(input) {
+    const [n, m] = input[0].split(" ").map(Number);
+    const fiveCount = fiveFun(n, m);
+    const twoCount = twoFun(n, m);
+
+    return console.log(Math.min(fiveCount, twoCount));
+}
+
+function fiveFun(n,m) {
+    const fiveArr = new Array(3).fill(0);
+    for (let i = 5; i <= n; i *= 5){
+        fiveArr[0] += Math.floor(n / i);
+    }
+    for (let i = 5; i <= m; i *= 5){
+        fiveArr[1] += Math.floor(m / i);
+        
+    }
+    for (let i = 5; i <= n-m; i *= 5){
+        fiveArr[2] += Math.floor((n-m) / i);
     }
 
-    answer.forEach(ele => console.log(ele));
+
+    return fiveArr[0] - (fiveArr[1] + fiveArr[2]);
+}
+
+function twoFun(n,m) {
+    const twoArr = new Array(3).fill(0);
+        
+    for (let i = 2; i <= n; i *= 2){
+        twoArr[0] += Math.floor(n / i);
+        
+    }
+    for (let i = 2; i <= m; i *= 2){
+        twoArr[1] += Math.floor(m / i);
+        
+    }
+    for (let i = 2; i <= n-m; i *= 2){
+        twoArr[2] += Math.floor((n-m) / i);
+        
+    }
+    return twoArr[0] - (twoArr[1] + twoArr[2]);
+
 }
 
 
-function isPrime(num) {
-    if (num === 1) return false;
-    for (let i = 2; i <= Math.sqrt(num); i++){
-        if (num % i === 0) return false;
-    }
-    return true;
-}
