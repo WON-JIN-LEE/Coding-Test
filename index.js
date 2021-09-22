@@ -19,52 +19,25 @@
 // });
 
 
-const input = `25 12`.split("\n");
+const input = `10`.split("\n");
 solution(input);
 
-
 function solution(input) {
-    const [n, m] = input[0].split(" ").map(Number);
-    const fiveCount = fiveFun(n, m);
-    const twoCount = twoFun(n, m);
+ 
+    const num = Number(input[0]);
 
-    return console.log(Math.min(fiveCount, twoCount));
+    const DP = new Array(num + 1).fill(0);
+
+    for (let i = 2; i <= num; i++) {
+        DP[i] = DP[i - 1] + 1;
+
+        if (i % 2 === 0) {
+            DP[i] = Math.min(DP[i], DP[i / 2] + 1);
+        }
+
+        if (i % 3 === 0) {
+            DP[i] = Math.min(DP[i], DP[i / 3] + 1);
+        }
+    }
+    return console.log(DP[num])
 }
-
-function fiveFun(n,m) {
-    const fiveArr = new Array(3).fill(0);
-    for (let i = 5; i <= n; i *= 5){
-        fiveArr[0] += Math.floor(n / i);
-    }
-    for (let i = 5; i <= m; i *= 5){
-        fiveArr[1] += Math.floor(m / i);
-        
-    }
-    for (let i = 5; i <= n-m; i *= 5){
-        fiveArr[2] += Math.floor((n-m) / i);
-    }
-
-
-    return fiveArr[0] - (fiveArr[1] + fiveArr[2]);
-}
-
-function twoFun(n,m) {
-    const twoArr = new Array(3).fill(0);
-        
-    for (let i = 2; i <= n; i *= 2){
-        twoArr[0] += Math.floor(n / i);
-        
-    }
-    for (let i = 2; i <= m; i *= 2){
-        twoArr[1] += Math.floor(m / i);
-        
-    }
-    for (let i = 2; i <= n-m; i *= 2){
-        twoArr[2] += Math.floor((n-m) / i);
-        
-    }
-    return twoArr[0] - (twoArr[1] + twoArr[2]);
-
-}
-
-
