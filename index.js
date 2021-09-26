@@ -19,25 +19,31 @@
 // });
 
 
-const input = `10`.split("\n");
+const input = `6
+30 20 10 30 20 50`.split("\n");
+
 solution(input);
 
 function solution(input) {
- 
     const num = Number(input[0]);
+    const arr = input[1].split(" ").map(Number);
+    const DP = Array.from({ length: num + 1 }, () => 0);
 
-    const DP = new Array(num + 1).fill(0);
+    const answer = new Set();
 
-    for (let i = 2; i <= num; i++) {
-        DP[i] = DP[i - 1] + 1;
+    for (let i = 1; i < num; i++) {
+        DP[i] = [1, [arr[i]]];
+        
+        let currentElement = arr[i];
+        let cnt = 0;
 
-        if (i % 2 === 0) {
-            DP[i] = Math.min(DP[i], DP[i / 2] + 1);
+        for (let j = 0; j < i; j++) {
+            if (currentElement > arr[j]) {
+                cnt = Math.max(cnt, DP[j]);
+                answer.add(currentElement);
+            }
         }
-
-        if (i % 3 === 0) {
-            DP[i] = Math.min(DP[i], DP[i / 3] + 1);
-        }
+        DP[i] += cnt;
     }
-    return console.log(DP[num])
+    console.log(DP);
 }
