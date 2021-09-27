@@ -19,31 +19,32 @@
 // });
 
 
-const input = `6
-30 20 10 30 20 50`.split("\n");
+const input = `20 2`.split("\n");
 
 solution(input);
 
 function solution(input) {
-    const num = Number(input[0]);
-    const arr = input[1].split(" ").map(Number);
-    const DP = Array.from({ length: num + 1 }, () => 0);
+    const [n, k] = input[0]
+        .split(" ")
+        .map(Number);
+    const DP = Array.from({length:k+1},()=> Array.from({length:n+1},()=> 0));
 
-    const answer = new Set();
+    for (let i = 0; i <= n; i++) {
+        DP[1][i] = 1;
+    }
 
-    for (let i = 1; i < num; i++) {
-        DP[i] = [1, [arr[i]]];
-        
-        let currentElement = arr[i];
-        let cnt = 0;
-
-        for (let j = 0; j < i; j++) {
-            if (currentElement > arr[j]) {
-                cnt = Math.max(cnt, DP[j]);
-                answer.add(currentElement);
+    for (let i = 2; i <= k; i++) {
+        for (let j = 0; j <= n; j++) {
+            if (j === 0) {
+                DP[i][j] = 1;
+            } else {
+                for (let x = 0; x <=j; x++) {
+                    DP[i][j] = (DP[i][j] + DP[i - 1][x]) % 1000000000;
+                }
             }
         }
-        DP[i] += cnt;
     }
-    console.log(DP);
+
+    return console.log(DP[k][n]);
+
 }
