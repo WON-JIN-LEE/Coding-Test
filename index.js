@@ -19,32 +19,48 @@
 // });
 
 
-const input = `20 2`.split("\n");
+const input = `2
+5
+3 2
+1 4
+4 1
+2 3
+5 5
+7
+3 6
+7 3
+4 2
+1 4
+5 7
+2 5
+6 1`.split("\n");
 
-solution(input);
+const testCase = input.shift();
+const testArr = [];
+
+//테스트 케이스 입력받기
+for (let i = 0; i < testCase; i++) {
+    const caseLen = input.shift();
+    testArr[i] = input
+        .splice(0, caseLen)
+        .map(ele => ele.split(" ").map(Number));
+    testArr[i].sort((a, b) => a[0] - b[0]);
+
+}
+
+const answer = testArr.map(arr => solution(arr));
+answer.forEach(element => console.log(element));
 
 function solution(input) {
-    const [n, k] = input[0]
-        .split(" ")
-        .map(Number);
-    const DP = Array.from({length:k+1},()=> Array.from({length:n+1},()=> 0));
+    const arrLen = input.length;
+    let tmp = input[0][1];
+    let passNum = 1;
 
-    for (let i = 0; i <= n; i++) {
-        DP[1][i] = 1;
-    }
-
-    for (let i = 2; i <= k; i++) {
-        for (let j = 0; j <= n; j++) {
-            if (j === 0) {
-                DP[i][j] = 1;
-            } else {
-                for (let x = 0; x <=j; x++) {
-                    DP[i][j] = (DP[i][j] + DP[i - 1][x]) % 1000000000;
-                }
-            }
+    for (let i = 1; i < arrLen; i++) {
+        if (tmp > input[i][1]) {
+            passNum += 1;
+            tmp = input[i][1];
         }
     }
-
-    return console.log(DP[k][n]);
-
+    return passNum;
 }
