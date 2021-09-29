@@ -19,48 +19,49 @@
 // });
 
 
-const input = `2
-5
-3 2
-1 4
-4 1
-2 3
-5 5
-7
-3 6
-7 3
-4 2
-1 4
-5 7
-2 5
-6 1`.split("\n");
-
-const testCase = input.shift();
-const testArr = [];
-
-//테스트 케이스 입력받기
-for (let i = 0; i < testCase; i++) {
-    const caseLen = input.shift();
-    testArr[i] = input
-        .splice(0, caseLen)
-        .map(ele => ele.split(" ").map(Number));
-    testArr[i].sort((a, b) => a[0] - b[0]);
-
-}
-
-const answer = testArr.map(arr => solution(arr));
-answer.forEach(element => console.log(element));
+const input = `3 20
+1 2 3 4 4 3 5 8 9 19 20 1 2 3 20 4 1 2 3 4`.split("\n");
+solution(input);
 
 function solution(input) {
-    const arrLen = input.length;
-    let tmp = input[0][1];
-    let passNum = 1;
+    const [tapLen] = input[0].split(" ").map(Number);
+    console.log(tapLen);
+    const orderArr = input[1].split(" ").map(Number).reverse();
+    let count = 0;
 
-    for (let i = 1; i < arrLen; i++) {
-        if (tmp > input[i][1]) {
-            passNum += 1;
-            tmp = input[i][1];
-        }
+    let tapArr = [];
+    
+
+    while(1){
+        
+        const tmp = orderArr.pop();
+
+        if (tapArr.length < tapLen) {
+            if (!tapArr.includes(tmp)) {
+                tapArr.push(tmp)
+                console.log(tapArr)
+            };
+        } else {
+            
+            if (!tapArr.includes(tmp)) {
+                // const orderArrLen = orderArr.length > tapLen*2  ? orderArr.length - tapLen*2  : 0;
+            
+                // const tmpArr = tapArr.map(ele => orderArr.slice(orderArrLen).filter(x => x === ele).length);
+                // const minIndex = tmpArr.indexOf(Math.min(...tmpArr));
+                const tmpArr = tapArr.map(ele => orderArr.lastIndexOf(ele));
+                const minIndex = tmpArr.indexOf(Math.min(...tmpArr));
+
+
+                tapArr.splice(minIndex, 1, tmp);
+                console.log(tapArr)
+                
+            count++;
+
+            }
+        }   
+        if (!orderArr.length) { break; }
+
     }
-    return passNum;
+        return console.log(count);
+
 }
