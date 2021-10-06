@@ -1,11 +1,13 @@
-# N과 M(2) (15650번) [node.js, JavaScript] 
+# (15652번) [node.js, JavaScript] 
 
 ## 문제 설명
 자연수 N과 M이 주어졌을 때, 아래 조건을 만족하는 길이가 M인 수열을 모두 구하는 프로그램을 작성하시오.
 
-- 1부터 N까지 자연수 중에서 중복 없이 M개를 고른 수열
-- 고른 수열은 오름차순이어야 한다.
-- 
+- 1부터 N까지 자연수 중에서 M개를 고른 수열
+- 같은 수를 여러 번 골라도 된다.
+- 고른 수열은 비내림차순이어야 한다.
+  - 길이가 K인 수열 A가 A1 ≤ A2 ≤ ... ≤ AK-1 ≤ AK를 만족하면, 비내림차순이라고 한다.
+
 ## 입력
 첫째 줄에 자연수 N과 M이 주어진다. (1 ≤ M ≤ N ≤ 8)
 
@@ -15,33 +17,27 @@
 수열은 사전 순으로 증가하는 순서로 출력해야 한다.
 
 ### 의사코드 
-- N과 M (1)는 재귀를 위한 for loop에서 index를 항상 맨 처음부터 다시 돌았다면 이 문제에서는 지난 숫자는 제외하고 for loop을 진행한다. (중복 제외)
-- dfs함수에 인덱스 매개변수를 추가했습니다.
-  
+- 비내림차순을N과 M(3)코드에서 dfs 매개변수로 index를 추가해서 앞 숫자와 같거나 높은 숫자로 수열을 만들 수 있게 했습니다.
+- 
 ### Code 
 ```js
 const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
-   
 const [N, M] = input[0].split(" ").map(Number);
-    const visited = new Array(N+1).fill(false);
     const output = [];
     let result = '';
-    dfs(1,1);
+    dfs(1, 1);
     console.log(result);
     
-function dfs(index,cnt) {
+function dfs(index, cnt) {
     if (cnt > M) {
         result += `${output.join(" ")}\n`;
         return;
     }
 
     for (let i = index; i <=N; i++){
-        if (visited[i] === true) continue;
-        visited[i] = true;
         output.push(i);
-        dfs(i, cnt + 1);
+        dfs(i,cnt + 1);
         output.pop();
-        visited[i] = false;
     }
 }
 ```
