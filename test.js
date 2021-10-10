@@ -17,16 +17,34 @@
 //   process.exit();
 // });
 
-const input = `120`.split("\n");
+const input = `4 2
+9 7 9 1`.split("\n");
 
-solution(input);
+const [N, M] = input[0].split(" ").map(Number);
+const numArr = input[1].split(" ");
+numArr.push(0);
+numArr.sort((a, b) => a - b);
+const visited = new Array(N+1).fill(false);
 
-function solution(input) {
-const N = input[0]*1;
-    let sum = 0;
-    for (let i = 1; i <= N; i *= 10){
-        sum += N - i + 1;
+const output = [];
+let result = "";
+dfs(1,1);
+console.log(result);
+
+function dfs(cnt) {
+    if (cnt > M) {
+        const sequenceStr = `${output.join(" ")}\n`;
+        if (result.match(sequenceStr)) { return; }
+        result += sequenceStr;
+        return;
     }
 
-    return console.log(sum);
+    for (let i = 1; i <=N; i++){
+        if (visited[i] === true) continue;
+        visited[i] = true;
+        output.push(numArr[i]);
+        dfs(cnt + 1);
+        output.pop();
+        visited[i] = false;
+    }
 }

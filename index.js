@@ -1,8 +1,6 @@
 
 // const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
 
-
-
 // const readline = require("readline");
 
 // const rl = readline.createInterface({
@@ -19,31 +17,33 @@
 //   process.exit();
 // });
 
-
-
 const input = `4 2
-9 8 7 1`.split("\n");
+9 7 9 1`.split("\n");
+
 const [N, M] = input[0].split(" ").map(Number);
-
 const numArr = input[1].split(" ");
-    numArr.push(0);
-    numArr.sort((a, b) => a - b);
-
+numArr.push(0);
+numArr.sort((a, b) => a - b);
 
 const output = [];
-    let result = '';
-    dfs(1);
-    console.log(result);
-    
-function dfs(cnt) {
+const set = new Set();
+let result = "";
+dfs(1,1);
+
+for (const value of set) {
+    result += `${value}\n`;
+}
+console.log(result);
+
+function dfs(index, cnt) {
     if (cnt > M) {
-        result += `${output.join(" ")}\n`;
+        set.add(`${output.join(" ")}`);
         return;
     }
 
-    for (let i = 1; i <=N; i++){
-        output.push(numArr[i]);
-        dfs(cnt + 1);
+    for (let i = index; i <=N; i++){
+        output.push(numArr[i-1]);
+        dfs(i, cnt + 1);
         output.pop();
     }
 }

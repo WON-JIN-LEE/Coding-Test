@@ -17,8 +17,8 @@
 수열은 사전 순으로 증가하는 순서로 출력해야 한다.
 
 ### 의사코드 
-- 비내림차순을N과 M(3)코드에서 dfs 매개변수로 index를 추가해서 앞 숫자와 같거나 높은 숫자로 수열을 만들 수 있게 했습니다.
-- 
+- 비내림차순을 N과 M(3)코드에서 dfs 매개변수로 index를 추가해서 앞 숫자와 같거나 높은 숫자로 수열을 만들 수 있게 했습니다.
+
 ### Code 
 ```js
 const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
