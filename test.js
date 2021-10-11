@@ -1,4 +1,3 @@
-
 // const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
 
 // const readline = require("readline");
@@ -17,34 +16,40 @@
 //   process.exit();
 // });
 
-const input = `4 2
-9 7 9 1`.split("\n");
+const input = `4
+3 4 1 2`.split("\n");
 
-const [N, M] = input[0].split(" ").map(Number);
-const numArr = input[1].split(" ");
-numArr.push(0);
-numArr.sort((a, b) => a - b);
-const visited = new Array(N+1).fill(false);
+NextPermutFun(input);
+function NextPermutFun(input) {
+const selectP = input[1].split(" ").map(Number);
+    let i = selectP.length - 1;
+    let j = i;
 
-const output = [];
-let result = "";
-dfs(1,1);
-console.log(result);
+    while (i > 0 && selectP[i - 1] >= selectP[i]) i--;
 
-function dfs(cnt) {
-    if (cnt > M) {
-        const sequenceStr = `${output.join(" ")}\n`;
-        if (result.match(sequenceStr)) { return; }
-        result += sequenceStr;
-        return;
-    }
+    if (i <= 0) return console.log(-1);
+    
+    while (selectP[j] <= selectP[i - 1]) j--;
 
-    for (let i = 1; i <=N; i++){
-        if (visited[i] === true) continue;
-        visited[i] = true;
-        output.push(numArr[i]);
-        dfs(cnt + 1);
-        output.pop();
-        visited[i] = false;
-    }
+    swap(selectP, i - 1, j);
+    j = selectP.length - 1;
+    const tmp = selectP.splice(i).sort((a,b)=>a-b);
+
+    const answer = [...selectP, ...tmp];
+    console.log(answer.join(" "));
+
+    
+    // while(i < j) {
+    //     swap(selectP, i, j);
+    //     i++;
+    //     j--;
+    //  console.log(selectP.join(" "));
+    // }
+    // return console.log(selectP.join(" "));
+
+}
+function swap(arr, index, nextIndex) {
+    const temp = arr[index];
+    arr[index] = arr[nextIndex];
+    arr[nextIndex] = temp;
 }
