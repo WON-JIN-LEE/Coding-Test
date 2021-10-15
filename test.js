@@ -16,40 +16,49 @@
 //   process.exit();
 // });
 
-const input = `4
-3 4 1 2`.split("\n");
+const input = `6
+20 1 15 8 4 10`.split("\n");
 
-NextPermutFun(input);
+const N = input[0]*1;
+let numArr = input[1].split(" ").map(Number);
+numArr.sort((a, b) => a - b);
+
+const visited = new Array(N+1).fill(false);
+const result = [];
+let answer = 0;
+
+do {
+    answer = Math.max(answer, getFormulaResult(numArr));
+} while(NextPermutFun(numArr));
+
+console.log(answer);
+
 function NextPermutFun(input) {
-const selectP = input[1].split(" ").map(Number);
+const selectP = input;
     let i = selectP.length - 1;
     let j = i;
 
-    while (i > 0 && selectP[i - 1] >= selectP[i]) i--;
-
-    if (i <= 0) return console.log(-1);
+    while (i > 0 && selectP[i - 1] >= selectP[i]){ i--;}
+    if (i <= 0) return false;
     
-    while (selectP[j] <= selectP[i - 1]) j--;
-
+    while (selectP[j] <= selectP[i - 1]){ j--;}
     swap(selectP, i - 1, j);
-    j = selectP.length - 1;
+
     const tmp = selectP.splice(i).sort((a,b)=>a-b);
+    numArr = [...selectP, ...tmp];
 
-    const answer = [...selectP, ...tmp];
-    console.log(answer.join(" "));
-
-    
-    // while(i < j) {
-    //     swap(selectP, i, j);
-    //     i++;
-    //     j--;
-    //  console.log(selectP.join(" "));
-    // }
-    // return console.log(selectP.join(" "));
-
+    return true;
 }
 function swap(arr, index, nextIndex) {
     const temp = arr[index];
     arr[index] = arr[nextIndex];
     arr[nextIndex] = temp;
+}
+
+function getFormulaResult(input) {
+    let sum = 0;
+    for (let i = 0; i < N-1; i++){
+        sum += Math.abs(input[i]-input[i+1]);
+    }
+    return sum;
 }
