@@ -16,45 +16,56 @@
 //     solution(input);
 //   process.exit();
 // });
+const input = `baekjoon online judge`.split("\n");
+solution(input);
 
-const input = `6
-20 1 15 8 4 10`.split("\n");
-
-const N = input[0]*1;
-const numArr = input[1].split(" ").map(Number);
-numArr.push(0);
-numArr.sort((a, b) => a - b);
-
-const visited = new Array(N+1).fill(false);
-const output = [];
-const result = [];
-
-dfs(1);
-
-const tmp = result.map((val) => {
-    let tmp = val.split(" ").map(Number);
-    let sum = 0;
+function solution(input) {
     
-    for (let i = 0; i < N-1; i++){
-    sum += Math.abs(tmp[i]-tmp[i+1]);
-    }
-    return sum;
-});
-console.log(Math.max(...tmp));
+    const string = input[0];
+    const len = string.length;
+    let answer = '';
+    const info = new Array(len).fill(0);
 
-function dfs(cnt) {
-    if (cnt > N) {
+    let canReverse = true, firstFind = false;
 
-        result.push(output.join(" "));
-        return;
+    for (let i = 0; i < len; i++) {
+        if (string[i] === "<") {
+            canReverse = false;
+        } else if (string[i] === ">") {
+            canReverse = true;
+        } else {
+            if (canReverse && string[i] !== " ") {
+                info[i] = 1;
+            }
+        }
     }
 
-    for (let i = 1; i <=N; i++){
-        if (visited[i] === true) continue;
-        visited[i] = true;
-        output.push(numArr[i]);
-        dfs(cnt + 1);
-        output.pop();
-        visited[i] = false;
+    const infoLen = info.length;
+    for (let i = 0; i < infoLen;) {
+        if (info[i] === 1) {
+            if (!firstFind) {
+                firstFind = true;
+                start = i;
+            }
+            i++;
+
+        } else {
+            if (firstFind) {
+                end = i;
+                answer += string.slice(start, end).split('').reverse().join("");
+                firstFind = false;
+            }
+            answer += string[i];
+            i++;
+        }
     }
+    
+    //info의 마지막 요소가 1로 끝나는 경우 예외처리
+    if (firstFind) {
+    end = infoLen;
+    answer +=string.slice(start, end).split('').reverse().join("");
+    firstFind = false;
+    }
+    
+    console.log(answer);
 }

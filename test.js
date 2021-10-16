@@ -16,49 +16,60 @@
 //   process.exit();
 // });
 
-const input = `6
-20 1 15 8 4 10`.split("\n");
+const input = `4
+0 10 15 20
+5 0 9 10
+6 13 0 12
+8 8 9 0`.split("\n");
 
-const N = input[0]*1;
-let numArr = input[1].split(" ").map(Number);
-numArr.sort((a, b) => a - b);
 
-const visited = new Array(N+1).fill(false);
-const result = [];
-let answer = 0;
+const N = Number(input.shift());
+    const arr = []; 
+    const visitied = [];
+    const output = [];
+    let result = Infinity;
 
-do {
-    answer = Math.max(answer, getFormulaResult(numArr));
-} while(NextPermutFun(numArr));
-
-console.log(answer);
-
-function NextPermutFun(input) {
-const selectP = input;
-    let i = selectP.length - 1;
-    let j = i;
-
-    while (i > 0 && selectP[i - 1] >= selectP[i]){ i--;}
-    if (i <= 0) return false;
-    
-    while (selectP[j] <= selectP[i - 1]){ j--;}
-    swap(selectP, i - 1, j);
-
-    const tmp = selectP.splice(i).sort((a,b)=>a-b);
-    numArr = [...selectP, ...tmp];
-
-    return true;
-}
-function swap(arr, index, nextIndex) {
-    const temp = arr[index];
-    arr[index] = arr[nextIndex];
-    arr[nextIndex] = temp;
-}
-
-function getFormulaResult(input) {
-    let sum = 0;
-    for (let i = 0; i < N-1; i++){
-        sum += Math.abs(input[i]-input[i+1]);
+    let count = 0;
+    for(let i = 0; i < input.length; i++){
+        arr.push(input[i].split(' ').map(num => Number(num)));
     }
-    return sum;
+
+console.log(arr)
+
+DFS(0);
+    
+console.log(result)
+
+function DFS(cnt) {
+    if(cnt === N) {
+        let tmp = 0;
+console.log(output)
+
+        for (let i = 1; i < output.length; i++){
+                tmp += arr[output[i-1]][output[i]]; 
+            }
+            
+        if (arr[output[N - 1]][output[0]] !== 0) {
+            console.log(arr[output[N - 1]][output[0]]);
+                
+                tmp += arr[output[N-1]][output[0]];
+            } else {
+                tmp = Infinity;
+            }
+
+            result = Math.min(result, tmp);
+            return;
+        }
+
+
+
+    for (let i = 0; i < N; i++){
+        if (visitied[i]) continue;
+        if(output.length > 0 && arr[output[output.length - 1]][i] === 0) continue;
+        visitied[i] = true;
+        output.push(i);
+        DFS(cnt + 1);
+        output.pop();
+        visitied[i] = false;
+    }
 }
