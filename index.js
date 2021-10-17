@@ -20,28 +20,31 @@ const input = `3
 4 10 20 30 40
 3 7 5 12
 3 125 15 25`.split("\n");
-input.shift();
 
-for (const value of input) {
-    console.log(solution(value));
+const caseNum = input.shift();
+let result = '';
+
+for (let i = 0; i < caseNum;i++){
+    solution(input[i]);
 }
+console.log(result.trim());
 
-
-
-function solution(arr) {
-    arr = arr.split(" ");
-    const len = arr.shift();
-    arr.sort((a, b) => a - b);
+function solution(str) {
+    const tmpArr = str.split(" ").map(Number);
+    const len = tmpArr.shift();
+    tmpArr.sort((a, b) => a - b);
     let answer = 0;
     
-    for (let i = 0; i < len-1; i++){
-        for (let j = i+1; j < len; j++){
-            answer+=gcd(arr[i], arr[j]);
+    for (let i = 0; i < len - 1; i++) {
+        for (let j = i + 1; j < len; j++) {
+            answer += gcd(tmpArr[i], tmpArr[j]);
         }
     }
-    return answer;
-}
 
+    
+    result += `${answer}\n`;
+    return;
+}
 
 function gcd(min, max) {
   if (min % max) return gcd(max, min % max);
