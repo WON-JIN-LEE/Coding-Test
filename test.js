@@ -1,3 +1,4 @@
+
 // const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
 
 // const readline = require("readline");
@@ -15,61 +16,46 @@
 //     solution(input);
 //   process.exit();
 // });
+const input = `7 1 2 3 4 5 6 7
+8 1 2 3 5 8 13 21 34
+0`.split("\n");
+input.pop();
+const output = [];
+let result = "";
 
-const input = `4
-0 10 15 20
-5 0 9 10
-6 13 0 12
-8 8 9 0`.split("\n");
+for (const str of input) {
+    solution(str);
+    result += `\n`;
+}
+
+console.log(result);
+
+function solution (arr) {
+    arr = arr.split(" ");
+    const k = arr.shift();
+    const numArr = arr.map(Number);
+    const visitied = Array.from({ length: k }, ()=>false);
 
 
-const N = Number(input.shift());
-    const arr = []; 
-    const visitied = [];
-    const output = [];
-    let result = Infinity;
+    dfs(0, 0, k, numArr,visitied);
+    
+}
 
-    let count = 0;
-    for(let i = 0; i < input.length; i++){
-        arr.push(input[i].split(' ').map(num => Number(num)));
+function dfs(index, cnt, k,numArr,visitied) {
+    if (cnt == 6) {
+        result += `${output.join(" ")}\n`;
+        return;
     }
 
-console.log(arr)
-
-DFS(0);
-    
-console.log(result)
-
-function DFS(cnt) {
-    if(cnt === N) {
-        let tmp = 0;
-console.log(output)
-
-        for (let i = 1; i < output.length; i++){
-                tmp += arr[output[i-1]][output[i]]; 
-            }
-            
-        if (arr[output[N - 1]][output[0]] !== 0) {
-            console.log(arr[output[N - 1]][output[0]]);
-                
-                tmp += arr[output[N-1]][output[0]];
-            } else {
-                tmp = Infinity;
-            }
-
-            result = Math.min(result, tmp);
-            return;
-        }
+    for (let i = index; i < k; i++){
+        if (visitied[i] === true) continue;
 
 
-
-    for (let i = 0; i < N; i++){
-        if (visitied[i]) continue;
-        if(output.length > 0 && arr[output[output.length - 1]][i] === 0) continue;
-        visitied[i] = true;
-        output.push(i);
-        DFS(cnt + 1);
+        visitied[i]=true;
+        output.push(numArr[i]);
+        dfs(i+1,cnt+1,k,numArr,visitied);
         output.pop();
-        visitied[i] = false;
+        visitied[i]=false;
     }
 }
+

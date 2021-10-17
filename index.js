@@ -16,56 +16,34 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `baekjoon online judge`.split("\n");
-solution(input);
+const input = `3
+4 10 20 30 40
+3 7 5 12
+3 125 15 25`.split("\n");
+input.shift();
 
-function solution(input) {
+for (const value of input) {
+    console.log(solution(value));
+}
+
+
+
+function solution(arr) {
+    arr = arr.split(" ");
+    const len = arr.shift();
+    arr.sort((a, b) => a - b);
+    let answer = 0;
     
-    const string = input[0];
-    const len = string.length;
-    let answer = '';
-    const info = new Array(len).fill(0);
-
-    let canReverse = true, firstFind = false;
-
-    for (let i = 0; i < len; i++) {
-        if (string[i] === "<") {
-            canReverse = false;
-        } else if (string[i] === ">") {
-            canReverse = true;
-        } else {
-            if (canReverse && string[i] !== " ") {
-                info[i] = 1;
-            }
+    for (let i = 0; i < len-1; i++){
+        for (let j = i+1; j < len; j++){
+            answer+=gcd(arr[i], arr[j]);
         }
     }
+    return answer;
+}
 
-    const infoLen = info.length;
-    for (let i = 0; i < infoLen;) {
-        if (info[i] === 1) {
-            if (!firstFind) {
-                firstFind = true;
-                start = i;
-            }
-            i++;
 
-        } else {
-            if (firstFind) {
-                end = i;
-                answer += string.slice(start, end).split('').reverse().join("");
-                firstFind = false;
-            }
-            answer += string[i];
-            i++;
-        }
-    }
-    
-    //info의 마지막 요소가 1로 끝나는 경우 예외처리
-    if (firstFind) {
-    end = infoLen;
-    answer +=string.slice(start, end).split('').reverse().join("");
-    firstFind = false;
-    }
-    
-    console.log(answer);
+function gcd(min, max) {
+  if (min % max) return gcd(max, min % max);
+  else return max;
 }
