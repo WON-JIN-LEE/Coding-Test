@@ -16,37 +16,25 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `3
-4 10 20 30 40
-3 7 5 12
-3 125 15 25`.split("\n");
+const input = `-13`.split("\n");
+    console.log(input[0]);
 
-const caseNum = input.shift();
-let result = '';
-
-for (let i = 0; i < caseNum;i++){
-    solution(input[i]);
-}
-console.log(result.trim());
+solution(input[0])
 
 function solution(str) {
-    const tmpArr = str.split(" ").map(Number);
-    const len = tmpArr.shift();
-    tmpArr.sort((a, b) => a - b);
-    let answer = 0;
-    
-    for (let i = 0; i < len - 1; i++) {
-        for (let j = i + 1; j < len; j++) {
-            answer += gcd(tmpArr[i], tmpArr[j]);
+    let N = str*1 ;
+    let res = '';
+
+    if (!N) console.log('0');
+    while (N) {
+        if (N % (-2)) {
+            res = '1' + res;
+            N = Math.floor(N / -2) + 1;
+        } else {
+            res = '0' + res;
+            N = Math.floor(N / -2);
         }
     }
 
-    
-    result += `${answer}\n`;
-    return;
-}
-
-function gcd(min, max) {
-  if (min % max) return gcd(max, min % max);
-  else return max;
+    console.log(res);
 }
