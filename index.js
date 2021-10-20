@@ -1,4 +1,3 @@
-
 // const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
 
 // const readline = require("readline");
@@ -16,25 +15,29 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `-13`.split("\n");
-    console.log(input[0]);
+const input = `4
+9 5 4 8`.split("\n");
+solution(input);
 
-solution(input[0])
 
-function solution(str) {
-    let N = str*1 ;
-    let res = '';
+function solution(input) {
+    const len = input[0]*1;
+    const arr = input[1].split(" ").map(Number);
+    const stack = [];
 
-    if (!N) console.log('0');
-    while (N) {
-        if (N % (-2)) {
-            res = '1' + res;
-            N = Math.floor(N / -2) + 1;
-        } else {
-            res = '0' + res;
-            N = Math.floor(N / -2);
+    for (let i = 0; i < len; i++){
+        while (stack.length !== 0 && arr[i] > arr[stack[stack.length - 1]]) {
+            let tmp = stack.pop();
+            arr[tmp] = arr[i];
+            console.log(tmp);
         }
-    }
 
-    console.log(res);
+        stack.push(i);
+            console.log("push : "+ i)
+
+    }
+    while(stack.length !== 0){
+    arr[stack.pop()] = -1;
+}
+    console.log(arr.join(" ").trim());
 }
