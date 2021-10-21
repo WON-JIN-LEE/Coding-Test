@@ -15,29 +15,53 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4
-9 5 4 8`.split("\n");
+const input = `5
+ABC*+DE/-
+1
+2
+3
+4
+5`.split("\n");
 solution(input);
-
-
 function solution(input) {
-    const len = input[0]*1;
-    const arr = input[1].split(" ").map(Number);
+    const str = input[1].split("");
+   const numArr = input.slice(2).map(Number);
     const stack = [];
 
-    for (let i = 0; i < len; i++){
-        while (stack.length !== 0 && arr[i] > arr[stack[stack.length - 1]]) {
-            let tmp = stack.pop();
-            arr[tmp] = arr[i];
-            console.log(tmp);
+
+    str.forEach(char => {
+        if ('A' <= char && char <= 'Z') {
+            const index = char.charCodeAt(0) - 'A'.charCodeAt(0);
+            stack.push(numArr[index]);
+
+        } else {
+             const a = parseFloat(stack.pop());
+            const b =  parseFloat(stack.pop());
+            stack.push(getResult(a, b, char));
         }
+    })
 
-        stack.push(i);
-            console.log("push : "+ i)
+    console.log(stack.pop());
 
-    }
-    while(stack.length !== 0){
-    arr[stack.pop()] = -1;
+    
 }
-    console.log(arr.join(" ").trim());
+
+function getResult(a, b, char) {
+    let res;
+
+    switch (char) {
+        case "+":
+            res = (b + a).toFixed(2);
+            break;
+        case "-":
+            res = (b - a).toFixed(2);
+            break;
+        case "*":
+            res = (b * a).toFixed(2);
+            break;
+        case "/":
+            res = (b / a).toFixed(2);
+            break;
+    }
+    return res;
 }
