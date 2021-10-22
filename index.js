@@ -15,53 +15,33 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `5
-ABC*+DE/-
-1
-2
-3
-4
-5`.split("\n");
-solution(input);
+const input = `One is 1`.split("\n");
+
+
+const answer = solution(input);
+console.log(answer);
 function solution(input) {
-    const str = input[1].split("");
-   const numArr = input.slice(2).map(Number);
-    const stack = [];
+    const string = input[0]
+    const len = string.length;
+    let result = '';
 
+    for (let i = 0; i < len; i++) {
 
-    str.forEach(char => {
-        if ('A' <= char && char <= 'Z') {
-            const index = char.charCodeAt(0) - 'A'.charCodeAt(0);
-            stack.push(numArr[index]);
-
+        if (string[i] >= "A" && string[i] <= "Z") {
+            result += ROT13(string[i], "Z");
+        } else if (string[i] >= "a" && string[i] <= "z") {
+            result += ROT13(string[i], "z");
         } else {
-             const a = parseFloat(stack.pop());
-            const b =  parseFloat(stack.pop());
-            stack.push(getResult(a, b, char));
+            result += string[i];
         }
-    })
 
-    console.log(stack.pop());
-
-    
-}
-
-function getResult(a, b, char) {
-    let res;
-
-    switch (char) {
-        case "+":
-            res = (b + a).toFixed(2);
-            break;
-        case "-":
-            res = (b - a).toFixed(2);
-            break;
-        case "*":
-            res = (b * a).toFixed(2);
-            break;
-        case "/":
-            res = (b / a).toFixed(2);
-            break;
     }
-    return res;
+
+    return result;
 }
+function ROT13(char, limt) {
+    if (char.charCodeAt(0) + 13 > limt.charCodeAt(0)) {
+        return String.fromCharCode(char.charCodeAt(0) + 13 - 26);
+    } else 
+        return String.fromCharCode(char.charCodeAt(0) + 13);
+    }

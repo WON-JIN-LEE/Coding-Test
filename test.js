@@ -1,5 +1,5 @@
-console.log("q".charCodeAt(0));
-const stack = [];
-stack.push(1);
-console.log(stack[0])
-console.log(typeof stack.pop())
+    let result = '1 2 3';
+
+result += 23;
+
+console.log(result)
