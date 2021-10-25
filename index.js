@@ -15,24 +15,24 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `ZZZZZ 36`.split("\n");
+const input = `1249`.split("\n");
 
 
 const answer = solution(input);
 console.log(answer);
 
 function solution(input) {
-    const [N,B] = input[0].split(" ");
-    const answer = parseInt(N, B).toString(10);
-    return answer;
+    let n = input[0] * 1;
+    let divider = 2;
+    let result = '';
+    while(n !==1)
+            if (n % divider === 0) {
+                result += `${divider}\n`
+                n /= divider;
+            } else {
+                divider += 1;
+            }
+    return result.trimEnd();
 }
 
-// const answer = solution(input);
-// console.log(answer);
 
-// function solution(input) {
-//     const [N,B] = input[0].split(" ");
-//     const answer = parseInt(N, 10).toString(B).toUpperCase();
-    
-//     return answer;
-// }
