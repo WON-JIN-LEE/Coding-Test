@@ -15,24 +15,24 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `1249`.split("\n");
+const input = `4`.split("\n");
 
 
 const answer = solution(input);
 console.log(answer);
 
+
 function solution(input) {
-    let n = input[0] * 1;
-    let divider = 2;
-    let result = '';
-    while(n !==1)
-            if (n % divider === 0) {
-                result += `${divider}\n`
-                n /= divider;
-            } else {
-                divider += 1;
-            }
-    return result.trimEnd();
+    const MOD = 9901;
+    const N = input.shift();
+    const DP = [[1, 1, 1]];
+    for (let i = 1; i < N; i++) {
+        DP.push([0, 0, 0]);
+        DP[i][0] = (DP[i - 1][0] + DP[i - 1][1] + DP[i - 1][2])%MOD;
+        DP[i][1] = (DP[i - 1][0] + DP[i - 1][2])%MOD;
+        DP[i][2] = (DP[i - 1][0] + DP[i - 1][1])%MOD;
+    }
+    return DP[N-1].reduce((acc, cur) => acc + cur, 0) %MOD;
 }
 
 
