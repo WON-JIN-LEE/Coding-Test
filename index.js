@@ -15,7 +15,13 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4`.split("\n");
+const input = `6
+6
+10
+13
+9
+8
+1`.split("\n");
 
 
 const answer = solution(input);
@@ -23,16 +29,21 @@ console.log(answer);
 
 
 function solution(input) {
-    const MOD = 9901;
-    const N = input.shift();
-    const DP = [[1, 1, 1]];
-    for (let i = 1; i < N; i++) {
-        DP.push([0, 0, 0]);
-        DP[i][0] = (DP[i - 1][0] + DP[i - 1][1] + DP[i - 1][2])%MOD;
-        DP[i][1] = (DP[i - 1][0] + DP[i - 1][2])%MOD;
-        DP[i][2] = (DP[i - 1][0] + DP[i - 1][1])%MOD;
+    const arr = input.map(Number)
+    const n = arr[0];
+    let result = '';
+
+    const dp = new Array(n + 1).fill(0);
+    dp[1] = arr[1];
+    dp[2] = arr[1] + arr[2];
+    dp[3] = Math.max(arr[1] + arr[2], arr[1] + arr[3], arr[2] + arr[3]);
+    
+    for (let i = 4; i <= n; i++) {
+        dp[i] = Math.max(
+            dp[i - 3] + arr[i - 1] + arr[i],
+            dp[i - 2] + arr[i],
+            dp[i -1],
+        );
     }
-    return DP[N-1].reduce((acc, cur) => acc + cur, 0) %MOD;
+    return dp[n];
 }
-
-

@@ -39,6 +39,4 @@ function solution(input) {
 
     return Math.min(...arr[N - 1]);
 }
-
-
 ```
