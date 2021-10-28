@@ -15,35 +15,35 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `6
-6
-10
-13
-9
-8
-1`.split("\n");
+const input = `10
+1 100 2 50 60 3 5 6 7 8`.split("\n");
 
 
 const answer = solution(input);
-console.log(answer);
-
+console.log(Math.max(...answer));
 
 function solution(input) {
-    const arr = input.map(Number)
-    const n = arr[0];
-    let result = '';
+    const cases = Number(input[0]);
+    const inputs = input[1].split(' ').map(v=>Number(v));
+    const dp = [];
 
-    const dp = new Array(n + 1).fill(0);
-    dp[1] = arr[1];
-    dp[2] = arr[1] + arr[2];
-    dp[3] = Math.max(arr[1] + arr[2], arr[1] + arr[3], arr[2] + arr[3]);
-    
-    for (let i = 4; i <= n; i++) {
-        dp[i] = Math.max(
-            dp[i - 3] + arr[i - 1] + arr[i],
-            dp[i - 2] + arr[i],
-            dp[i -1],
-        );
+    for (let i = 0; i < cases; i++) {
+        let max = 0;
+        let maxIndex = -1;
+        for (let j = 0; j < i; j++) {
+            console.log(`${inputs[i]} > ${inputs[j]} && ${dp[j]} > ${max}`)
+            if (inputs[i] > inputs[j] && dp[j] > max) {
+                max = dp[j];
+                maxIndex = j;
+            }
+        }
+    if(maxIndex !== -1){
+        dp[i] = dp[maxIndex] + inputs[i];
+    }else{
+        dp[i] = inputs[i];
+        }
+        console.log(dp)
     }
-    return dp[n];
+
+    return dp ;
 }
