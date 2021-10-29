@@ -16,34 +16,41 @@
 //   process.exit();
 // });
 const input = `10
-1 100 2 50 60 3 5 6 7 8`.split("\n");
+1 5 2 1 4 3 4 5 2 1`.split("\n");
 
 
 const answer = solution(input);
 console.log(Math.max(...answer));
 
 function solution(input) {
-    const cases = Number(input[0]);
-    const inputs = input[1].split(' ').map(v=>Number(v));
-    const dp = [];
+    const n = Number(input[0]);
+    const arr = input[1]
+        .split(' ')
+        .map(v => Number(v));
+    const upDP = new Array(n).fill(0);
+    const downDP = new Array(n).fill(0);
 
-    for (let i = 0; i < cases; i++) {
-        let max = 0;
-        let maxIndex = -1;
+    for (let i = 0; i <n; i++) {
+        let count = 0;
         for (let j = 0; j < i; j++) {
-            console.log(`${inputs[i]} > ${inputs[j]} && ${dp[j]} > ${max}`)
-            if (inputs[i] > inputs[j] && dp[j] > max) {
-                max = dp[j];
-                maxIndex = j;
+            if (arr[i] > arr[j]) {
+                count = Math.max(count, upDP[j]);
             }
         }
-    if(maxIndex !== -1){
-        dp[i] = dp[maxIndex] + inputs[i];
-    }else{
-        dp[i] = inputs[i];
-        }
-        console.log(dp)
+        upDP[i] = count +1;
     }
 
-    return dp ;
+    for (let i = n-1; i >= 0; i--) {
+        let count = 0;
+        for (let j = i+1; j < n; j++) {
+            if (arr[i] > arr[j]) {
+                count = Math.max(count, downDP[j]);
+            }
+        }
+        downDP[i] = count + 1;
+        
+    }
+    const result = upDP.map((v, idx) => v + downDP[idx]);
+    
+    return result;
 }
