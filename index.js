@@ -15,42 +15,25 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `10
-1 5 2 1 4 3 4 5 2 1`.split("\n");
+const input = `6`.split("\n");
 
 
 const answer = solution(input);
-console.log(Math.max(...answer));
+console.log(answer);
 
 function solution(input) {
-    const n = Number(input[0]);
-    const arr = input[1]
-        .split(' ')
-        .map(v => Number(v));
-    const upDP = new Array(n).fill(0);
-    const downDP = new Array(n).fill(0);
+    const n = input[0]*1;
+    const dp = new Array(n+1).fill(0);
+    dp[0] =0;
+    dp[2] =3;
 
-    for (let i = 0; i <n; i++) {
-        let count = 0;
-        for (let j = 0; j < i; j++) {
-            if (arr[i] > arr[j]) {
-                count = Math.max(count, upDP[j]);
+        for (let i = 4; i <= n; i += 2) {
+            dp[i] = dp[i] + dp[i - 2] * 3;
+            for (let j = i-4; j >= 2; j -= 2) {
+                dp[i] += dp[j]*2
             }
-        }
-        upDP[i] = count +1;
-    }
+            dp[i] = dp[i] +2;
 
-    for (let i = n-1; i >= 0; i--) {
-        let count = 0;
-        for (let j = i+1; j < n; j++) {
-            if (arr[i] > arr[j]) {
-                count = Math.max(count, downDP[j]);
-            }
         }
-        downDP[i] = count + 1;
-        
-    }
-    const result = upDP.map((v, idx) => v + downDP[idx]);
-    
-    return result;
+    console.log(dp);
 }
