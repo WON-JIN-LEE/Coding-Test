@@ -26,17 +26,17 @@ const input = require("fs").readFileSync("/dev/stdin").toString().split("\n");
 const answer = solution(input);
 console.log(answer);
 
-
 function solution(input) {
     const N = input.shift();
     const arr = input.map(v => v.split(" ").map(Number));
-    for (let i = 1; i < N; i++) {
-        arr[i][0] = Math.min(arr[i - 1][1], arr[i - 1][2]) + arr[i][0];
-        arr[i][1] = Math.min(arr[i - 1][0], arr[i - 1][2]) + arr[i][1];
-        arr[i][2] = Math.min(arr[i - 1][0], arr[i - 1][1]) + arr[i][2];
-    }
-    
+    const dp = Array.from({length:N}, ()=> []);
+    dp[0] = input[0].split(" ").map(Number);
 
-    return Math.min(...arr[N - 1]);
+    for (let i = 1; i < N; i++) {
+        dp[i][0] = Math.min(dp[i - 1][1], dp[i - 1][2]) + arr[i][0];
+        dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][2]) + arr[i][1];
+        dp[i][2] = Math.min(dp[i - 1][0], dp[i - 1][1]) + arr[i][2];
+    }
+    return Math.min(...dp[N - 1]);
 }
 ```
