@@ -15,34 +15,41 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4 6
-a t c i s w`.split("\n");
-const consonant = ['a', 'e', 'i', 'o', 'u'];
-let result = '';
-const output = [];
-const [L, C] = input[0].split(' ');
-const alpha = input[1].split(' ').sort();
+const input = `9
+> < < < > > > < <`.split("\n");
+const N = +input.shift();
+const inequality = input[0].split(" ");
+const visited = new Array(10).fill(false);
+  let max = String(Number.MIN_SAFE_INTEGER); 
+  let min = String(Number.MAX_SAFE_INTEGER);
 
-re_alpha(0, 0, 0, 0);
-console.log(result.trimEnd());
-
-function re_alpha(cnt, index, cons_count, vowel_count) {
-    // 자음, 모음 조건 충족 할때 result에 추가
-    if (cnt == L) {
-        if (cons_count >= 1 && vowel_count >= 2) {
-            result += `${output.join('')}\n`;
-        }
+for (let i = 0; i < 10; i++) {
+    visited[i] = true;
+    dfs(0, i, `${i}`);
+    visited[i] = false;
+}
+console.log(`${max}\n${min}`);
+function dfs(L, prev, result) {
+    if (L == N) {
+        max = result > max ? result : max;
+        min = result < min ? result : min;
+        
         return;
     }
-    for (let i = index; i < C; i++) {
-        output.push(alpha[i]);
-        if (consonant.includes(alpha[i])) {
-            re_alpha(cnt + 1, i + 1, cons_count+1, vowel_count);
-        } else {
-            re_alpha(cnt + 1, i + 1, cons_count, vowel_count+1);
+    if (inequality[L] === "<") {
+        for (let i = prev + 1; i < 10; i++) {
+            if (visited[i] === true) continue;
+            visited[i] = true;
+            dfs(L + 1, i, result + i);
+            visited[i] = false;
         }
-        output.pop();
+    } else {
+        for (let i = prev - 1; i > -1; i--) {
+            if (visited[i] === true) continue;
+            visited[i] = true;
+            dfs(L + 1, i, result + i);
+            visited[i] = false;
+        }
     }
-    return;
+    return ;
 }
-
