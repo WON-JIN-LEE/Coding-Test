@@ -9,47 +9,64 @@
 
 // const input=[];
 // rl.on("line", function (x) {
-//   input.push(x)
+//   input.push(x*1)
   
 // }).on("close", function () {
 //     solution(input);
 //   process.exit();
 // });
-const input = `9
-> < < < > > > < <`.split("\n");
-const N = +input.shift();
-const inequality = input[0].split(" ");
-const visited = new Array(10).fill(false);
-  let max = String(Number.MIN_SAFE_INTEGER); 
-  let min = String(Number.MAX_SAFE_INTEGER);
+const input = `4
+-+0++++--+`.split("\n");
+let find = false;
+    const N = +input[0];
+const inputs = input[1];
+    let map = Array.from({length:N},()=>new Array(N).fill(-1));
+    
+let idx = 0;
 
-for (let i = 0; i < 10; i++) {
-    visited[i] = true;
-    dfs(0, i, `${i}`);
-    visited[i] = false;
+    for (let i = 0; i < N; i++) {
+        for (let j = i; j < N; j++) {
+            map[i][j] = inputs[idx];
+            idx += 1;
+        }
 }
-console.log(`${max}\n${min}`);
-function dfs(L, prev, result) {
-    if (L == N) {
-        max = result > max ? result : max;
-        min = result < min ? result : min;
-        
+    
+let v = [];
+let result = [];
+
+
+solve(0);
+loop1:
+console.log(result);
+
+function solve(idx) {
+    if (find) return;
+    if (idx === N) {
+        result.push(v.join(" "));
+        find = true;
         return;
     }
-    if (inequality[L] === "<") {
-        for (let i = prev + 1; i < 10; i++) {
-            if (visited[i] === true) continue;
-            visited[i] = true;
-            dfs(L + 1, i, result + i);
-            visited[i] = false;
-        }
-    } else {
-        for (let i = prev - 1; i > -1; i--) {
-            if (visited[i] === true) continue;
-            visited[i] = true;
-            dfs(L + 1, i, result + i);
-            visited[i] = false;
-        }
+     for (let i = -10; i <= 10; i++)
+    {
+        v.push(i);
+        // idx 번째의 숫자가 모든 조건을 만족한다면 idx+1번째로 진행
+        if (possible(idx)) solve(idx + 1);
+        v.pop();
     }
-    return ;
+}
+
+function possible(idx) {
+ let sum = 0;
+
+    for (let i = idx; i >= 0; i--)
+    {
+        // V[idx] 부터 V[i] 까지의 합
+        sum += v[i];
+
+        // V[idx] 부터 V[i] 까지의 합은 map[i][idx] 의 부호를 만족해야 한다
+        if (map[i][idx] == '+' && sum <= 0)	return false;
+        if (map[i][idx] == '-' && sum >= 0)	return false;
+        if (map[i][idx] == '0' && sum != 0)	return false;
+    }
+    return true;
 }
