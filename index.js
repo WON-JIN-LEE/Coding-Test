@@ -15,58 +15,40 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4
--+0++++--+`.split("\n");
-let find = false;
-    const N = +input[0];
-const inputs = input[1];
-    let map = Array.from({length:N},()=>new Array(N).fill(-1));
-    
-let idx = 0;
+const input = `6 5
+1 2
+2 5
+5 1
+3 4
+4 6`.split("\n");
+const [N, M] = input.shift().split(" ").map(Number);
+    const visited = new Array(N + 1).fill(false);
+const edge = Array.from({length: N+1},()=>[]);
 
-    for (let i = 0; i < N; i++) {
-        for (let j = i; j < N; j++) {
-            map[i][j] = inputs[idx];
-            idx += 1;
+    for (let i = 0; i < M; i++) {
+        const [from, to] = input[i].split(" ").map(Number);
+        edge[from].push(to);
+        edge[to].push(from);
+}
+    
+    let count = 0;
+
+for (let i = 1; i <= N; i++) {
+        if (!visited[i]) {
+            dfs(i);
+            count++;
         }
 }
+console.log(count);
     
-let v = [];
-let result = [];
+function dfs(start) {
+    if (visited[start]) return;
+    visited[start] = true;
+    for (let i = 0; i < edge[start].length; i++) {
+        const next = edge[start][i];
 
-
-solve(0);
-loop1:
-console.log(result);
-
-function solve(idx) {
-    if (find) return;
-    if (idx === N) {
-        result.push(v.join(" "));
-        find = true;
-        return;
+        if (!visited[next]) {
+            dfs(next);
+        }
     }
-     for (let i = -10; i <= 10; i++)
-    {
-        v.push(i);
-        // idx 번째의 숫자가 모든 조건을 만족한다면 idx+1번째로 진행
-        if (possible(idx)) solve(idx + 1);
-        v.pop();
-    }
-}
-
-function possible(idx) {
- let sum = 0;
-
-    for (let i = idx; i >= 0; i--)
-    {
-        // V[idx] 부터 V[i] 까지의 합
-        sum += v[i];
-
-        // V[idx] 부터 V[i] 까지의 합은 map[i][idx] 의 부호를 만족해야 한다
-        if (map[i][idx] == '+' && sum <= 0)	return false;
-        if (map[i][idx] == '-' && sum >= 0)	return false;
-        if (map[i][idx] == '0' && sum != 0)	return false;
-    }
-    return true;
-}
+};
