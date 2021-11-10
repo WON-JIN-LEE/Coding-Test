@@ -1,5 +1,10 @@
-    let result = '1 2 3';
+const input ="5".split("\n"); 
 
-result += 23;
+const N = input.shift() * 1;
+let result = '';
+for(let i=1; i<=N; i++){
+    
+    result+=`${' '.repeat(N-i)}${'*'.repeat(i)}\n`;
+}
 
-console.log(result)
+    console.log(result.trimEnd());
