@@ -1,43 +1,38 @@
 // const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
 
-const readline = require("readline");
+// const readline = require("readline");
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// const rl = readline.createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
 
-const input=[];
-rl.on("line", function (x) {
-    input.push(x);
+// const input=[];
+// rl.on("line", function (x) {
+//     input.push(x);
   
-}).on("close", function () {
-    solution(input);
-  process.exit();
-});
-const input = `5 8 20
-5 8 17
-0 0 0`.split("\n");
-
-let result = '';
-let start = 1;
-for (let i = 0; i < input.length; i++){
-    solution(input[i]);
-    start += 1;
-}
-console.log(result.trimEnd());
+// }).on("close", function () {
+//     solution(input);
+//   process.exit();
+// });
+const input = `5
+20 10 35 30 7`.split("\n");
+solution(input);
+    
 function solution(inputs) {
-     let count = 0; 
-    let [L, P, V] = inputs.split(" ").map(Number);
-    while (V > P) {
-        V = V - P;
-        count += L;
-    }
+    const n = +inputs[0];
+    const numbers = inputs[1].split(" ").map(Number);
+    let max = numbers[0];
+    let min = numbers[0];
+    
+    for (let i = 1; i < n;i++) {
+  if (max < numbers[i]) {
+    max = numbers[i];
+  }
+  if (min > numbers[i]) {
+    min = numbers[i];
+  }
+}
 
-    if (L > V) {
-        count += V;
-    } else { count += L; }
-
-    result +=`Case ${start}: ${count}\n`;
-    return;
+    console.log(`${min} ${max}`);
 }
