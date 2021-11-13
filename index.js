@@ -16,23 +16,26 @@
 //   process.exit();
 // });
 const input = `5
-20 10 35 30 7`.split("\n");
-solution(input);
-    
-function solution(inputs) {
-    const n = +inputs[0];
-    const numbers = inputs[1].split(" ").map(Number);
-    let max = numbers[0];
-    let min = numbers[0];
-    
-    for (let i = 1; i < n;i++) {
-  if (max < numbers[i]) {
-    max = numbers[i];
-  }
-  if (min > numbers[i]) {
-    min = numbers[i];
-  }
+5 50 50 70 80 100
+7 100 95 90 80 70 60 50
+3 70 90 80
+3 70 90 81
+9 100 99 98 97 96 95 94 93 91`.split("\n");
+let result = '';
+let testLen = +input.shift();
+for (let i = 0; i < testLen; i++) {
+    solution(input[i]);
 }
 
-    console.log(`${min} ${max}`);
+function solution(inputs) {
+    const score = inputs.split(" ").map(Number);
+    const N = score.shift();
+    const avg = score.reduce((s, c) => s + c, 0)/N;
+    let count =0;
+    for (let i = 0; i < N; i++){
+        if (avg < score[i]) { count++;}
+    }
+
+    let answer = (count / N * 100).toFixed(3);
+    console.log(`${ answer }%`);
 }
