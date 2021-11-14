@@ -15,27 +15,19 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `5
-5 50 50 70 80 100
-7 100 95 90 80 70 60 50
-3 70 90 80
-3 70 90 81
-9 100 99 98 97 96 95 94 93 91`.split("\n");
-let result = '';
-let testLen = +input.shift();
-for (let i = 0; i < testLen; i++) {
-    solution(input[i]);
-}
+const input = `100`.split("\n");
 
-function solution(inputs) {
-    const score = inputs.split(" ").map(Number);
-    const N = score.shift();
-    const avg = score.reduce((s, c) => s + c, 0)/N;
-    let count =0;
-    for (let i = 0; i < N; i++){
-        if (avg < score[i]) { count++;}
+const N = +input[0];
+let count = 0;
+
+for (let i = 1; i <= N; i++){
+    let numStr = String(i);
+    if (i < 100) {
+        count++;
+    } else {
+        if (Number(numStr[0]) - Number(numStr[1]) === Number(numStr[1]) - Number(numStr[2])) {
+            count++;
+        }
     }
-
-    let answer = (count / N * 100).toFixed(3);
-    console.log(`${ answer }%`);
 }
+ console.log(count)
