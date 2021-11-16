@@ -15,12 +15,29 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `734 893`.split("\n");
-const [A, B] = input[0].split(" ");
-const reverNum = (str) => +str.split("").reverse().join("");
-const reA = reverNum(A);
-const reB = reverNum(B);
-    
-console.log(reA > reB ? reA : reB);
+const input = `4
+aba
+abab
+abcabc
+a`.split("\n");
 
-console.log('122222213' > '0')
+const N = +input.shift();
+let count = N;
+
+for (let i = 0; i < N; i++) {
+    solution(input[i]);
+}
+console.log(count);
+
+function solution(input) {
+    const obj = {};
+    for (let i = 0; i < input.length; i++){
+        if (!obj[input[i]]) {
+            obj[input[i]]=true;
+        } else if (input[i] !== input[i - 1]) {
+            count--;
+            return ;
+        }
+    }
+    return ;
+}
