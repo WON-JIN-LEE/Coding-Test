@@ -15,19 +15,12 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `100`.split("\n");
+const input = `734 893`.split("\n");
+const [A, B] = input[0].split(" ");
+const reverNum = (str) => +str.split("").reverse().join("");
+const reA = reverNum(A);
+const reB = reverNum(B);
+    
+console.log(reA > reB ? reA : reB);
 
-const N = +input[0];
-let count = 0;
-
-for (let i = 1; i <= N; i++){
-    let numStr = String(i);
-    if (i < 100) {
-        count++;
-    } else {
-        if (Number(numStr[0]) - Number(numStr[1]) === Number(numStr[1]) - Number(numStr[2])) {
-            count++;
-        }
-    }
-}
- console.log(count)
+console.log('122222213' > '0')
