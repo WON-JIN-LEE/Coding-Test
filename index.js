@@ -15,29 +15,12 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4
-aba
-abab
-abcabc
-a`.split("\n");
-
-const N = +input.shift();
-let count = N;
-
-for (let i = 0; i < N; i++) {
-    solution(input[i]);
-}
-console.log(count);
+const input = `1000 70 170`.split("\n");
+console.log(solution(input));
 
 function solution(input) {
-    const obj = {};
-    for (let i = 0; i < input.length; i++){
-        if (!obj[input[i]]) {
-            obj[input[i]]=true;
-        } else if (input[i] !== input[i - 1]) {
-            count--;
-            return ;
-        }
-    }
-    return ;
+    const [A, B, C] = input[0].split(" ").map(Number);
+    if (B >= C) return -1;
+    let count = Math.floor(A/(C-B)) +1 ;
+    return count;
 }
