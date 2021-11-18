@@ -15,12 +15,12 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `1000 70 170`.split("\n");
-console.log(solution(input));
+const input = `100 99 1000000000`.split("\n");
 
-function solution(input) {
-    const [A, B, C] = input[0].split(" ").map(Number);
-    if (B >= C) return -1;
-    let count = Math.floor(A/(C-B)) +1 ;
-    return count;
-}
+    let [A, B, V] = input[0].split(" ").map(Number);
+    let start = 0;
+    
+
+    let day = Math.ceil((V-B)/(A-B));
+
+    console.log(day);
