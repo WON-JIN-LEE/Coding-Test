@@ -15,12 +15,29 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `100 99 1000000000`.split("\n");
+const input = `2
+1
+3
+2
+3`.split("\n");
 
-    let [A, B, V] = input[0].split(" ").map(Number);
-    let start = 0;
+const T = +input.shift();
+
+for (let i = 0; i < T;i++){
+const a= input.shift();
+    const b = input.shift();
+    const apartment = [];
+
+    for (let i = 0; i <= a; i++){
+        apartment.push([1]);
+        for (let j = 1; j < b; j++){
+            if (i === 0) {
+                apartment[i].push(j + 1);
+            } else {
+                apartment[i].push(apartment[i][j - 1] + apartment[i - 1][j]);
+            }
+        }
+    }
     
-
-    let day = Math.ceil((V-B)/(A-B));
-
-    console.log(day);
+    console.log(apartment[a][b - 1]);
+}
