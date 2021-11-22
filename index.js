@@ -16,42 +16,31 @@
 //   process.exit();
 // });
 const input = `3
-8
-10
-16`.split("\n");
-
-solution(input);
-function solution(input) {
-    const N = +input.shift();
-    let result = '';
-    const answer = [0,0];
-    for (let i = 0; i < N; i++){
-        let min = Infinity;
-
-        for (let j = 4; j <= input[i]; j++) {
-        
-            if (isPrime(j) && isPrime(input[i] - j)) {
-                if (Math.abs(input[i] - 2 * j) < min) {
-                    answer.pop();
-                    answer.pop();
-                    answer.push(j);
-                    answer.push(input[i] - j);
-                    min = Math.abs(input[i] - 2 * j);
-                } 
-            };
-        }
-        answer.sort((a, b) => a - b);
-console.log(answer.join(" "));
-
-    }
+0 0 13 40 0 37
+0 0 3 0 7 4
+1 1 1 1 1 5`.split("\n");
+const N = +input.shift();
+for (let i = 0; i < N; i++) {
+    solution(input[i]);
 }
-    
-function isPrime(n) {
-  if (n <= 1) return false;
-  for (var i = 2; i <= Math.sqrt(n); i++) {
-    if (n % i === 0) {
-      return false;
+
+function solution(input) {
+    const [x1, y1, r1, x2, y2, r2] = input.split(" ").map(Number);
+    let range = Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+
+    if (range === 0) {
+        if (r1 !== r2) console.log(0);
+        else if (r1 === r2) console.log(-1);
     }
-  }
-  return true;
+    else if (range < r1 + r2) {
+        if (range + r1 < r2) console.log(0);
+        else if (range + r2 < r1) console.log(0);
+        else if (range + r2 === r1) console.log(1);
+        else if (range + r1 === r2) console.log(1);
+        else console.log(2);
+    } else if (range === r1 + r2) {
+        console.log(1);
+    } else if (range > r1 + r2) {
+        console.log(0);
+    }
 }
