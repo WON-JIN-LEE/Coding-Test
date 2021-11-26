@@ -15,24 +15,50 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `5
-55 185
-58 183
-88 186
-60 175
-46 155`.split("\n");
-
-
+const input = `1
+4000`.split("\n");
+solution(input);
+function solution(input) {
   const N = +input.shift();
-const arr = input.map(ele => ele.split(" "));
-const answer = [];
+  const arr = input.sort((a, b) => a - b).map(Number);
 
-for (let i = 0; i < N; i++){
-  const [x, y] = arr[i];
-  let count = 1;
-  for (let j = 0; j < N; j++) {
-    if (x < arr[j][0] && y < arr[j][1]) count++;
+
+  //산술평균
+  const avr = (arr.reduce((acc, cur) => acc + cur, 0) / N).toFixed(0);
+  
+  //중앙값
+  const midNum = arr[Math.floor(N / 2)];
+
+  //최빈값
+    const numObj = {};
+    for (let num of arr) {
+      if (numObj[num]) {
+        numObj[num] = numObj[num] + 1;
+      } else {
+        numObj[num] = 1;
+      }
+    }
+
+let hitMaxNum = Math.max(...Object.values(numObj));
+let hitMaxNumArr = [];
+let hitMaxNumResult = 0;
+for (let numKey in numObj) {
+  if (numObj[numKey] === hitMaxNum) {
+    hitMaxNumArr.push(numKey);
   }
-  answer.push(count);
+  }
+  if (hitMaxNumArr.length > 1) {
+  hitMaxNumArr = hitMaxNumArr.sort((a, b) => a - b);
+  hitMaxNumResult = hitMaxNumArr[1];
+} else {
+  hitMaxNumResult = hitMaxNumArr[0];
+  }
+  
+  //범위값
+ const maxSubMin = arr[arr.length - 1] - arr[0];
+  
+  console.log(avr);
+  console.log(midNum);
+  console.log(hitMaxNumResult);
+  console.log(maxSubMin);
 }
-console.log(answer.join(" "));
