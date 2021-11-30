@@ -15,23 +15,37 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `5
-2 4 -10 4 -9`.split("\n");
+const input = `4`.split("\n");
+const N = +input[0];
+const vx = new Array(N + 1).fill();
+const vy = new Array(N + 1).fill();
 
-console.log(solution(input));
-
-function solution(input) {
-  let [n, x] = input;
-  x = x.split(" ").map(Number);
-  const answer = [];
-  const set = Array.from(new Set(x)).sort((a,b)=>a-b);
-  const object = {};
-
-  set.forEach((item, idx) => object[item] = idx);
-
-  for (let i = 0; i < x.length; i++){
-    answer.push(object[x[i]]);
-  }
-
-  return answer.join(" ");
+let count = 0;
+for (let i = 0; i < N; i++) {
+  go(0, i);
+  
 }
+console.log(count);
+
+function go(y, x) {
+  
+  //가지치기
+  for (let i = 0; i < y; i++) {
+    if (y == vy[i]) return 0;  // 가로겹침
+    if (x == vx[i]) return 0; // 세로겹침
+    if (Math.abs(x - vx[i]) == Math.abs(y - vy[i])) return 0; //대각선 겹침
+  }
+  
+//종료조건
+   if (y == N - 1) {
+     count++;
+     return;
+   }
+
+  vy[y] = y;
+  vx[y] = x;
+  for (let i = 0; i < N; i++) {
+    go(y+1, i);
+   }
+   return 0;
+ }
