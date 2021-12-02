@@ -15,37 +15,52 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4`.split("\n");
+const input = `6
+1 2 3 4 5 6
+2 1 1 1`.split("\n");
 const N = +input[0];
-const vx = new Array(N + 1).fill();
-const vy = new Array(N + 1).fill();
+const numbers = input[1].split(" ").map(Number);
+const operator = input[2].split(" ").map(Number);
 
-let count = 0;
-for (let i = 0; i < N; i++) {
-  go(0, i);
-  
-}
-console.log(count);
+const operObj = {
+    0: (oper1, oper2) => oper1 + oper2,
+    1: (oper1, oper2) => oper1 - oper2,
+    2: (oper1, oper2) => oper1 * oper2,
+    3: (oper1, oper2) => {
+      if (oper1 < 0) {
+        return -Math.floor(-oper1 / oper2);
+      }
+      return Math.floor(oper1 / oper2);
+    }, 
+  };
 
-function go(y, x) {
-  
-  //가지치기
-  for (let i = 0; i < y; i++) {
-    if (y == vy[i]) return 0;  // 가로겹침
-    if (x == vx[i]) return 0; // 세로겹침
-    if (Math.abs(x - vx[i]) == Math.abs(y - vy[i])) return 0; //대각선 겹침
+
+const tmp = [];
+let min = Number.MAX_SAFE_INTEGER;
+let max = Number.MIN_SAFE_INTEGER;
+dfs(0);
+console.log(`${max}\n${min}`);
+
+function dfs(cnt) {
+  if (cnt === N - 1) {
+    
+    let sum = numbers[0];
+    tmp.forEach((ele, i) => {
+      let num = numbers[i + 1];
+      sum = operObj[ele](sum, num);
+    });
+
+    if (sum > max) max = sum;
+    if (sum < min) min = sum;
+    return;
   }
-  
-//종료조건
-   if (y == N - 1) {
-     count++;
-     return;
-   }
 
-  vy[y] = y;
-  vx[y] = x;
-  for (let i = 0; i < N; i++) {
-    go(y+1, i);
-   }
-   return 0;
- }
+  for (let i = 0; i < 4; i++){
+    if (operator[i] === 0) continue;
+    operator[i] -= 1;
+    tmp.push(i);
+    dfs(cnt + 1);
+    tmp.pop();
+    operator[i] += 1;
+  }
+}
