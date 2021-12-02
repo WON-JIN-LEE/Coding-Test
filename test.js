@@ -1,10 +1,6 @@
-const input ="5".split("\n"); 
 
-const N = input.shift() * 1;
-let result = '';
-for(let i=1; i<=N; i++){
-    
-    result+=`${' '.repeat(N-i)}${'*'.repeat(i)}\n`;
-}
+console.log((-22 / 4 ));
+console.log(Math.floor(-22 / 4 ));
 
-    console.log(result.trimEnd());
+console.log(-Math.floor(-(-22) / 4 ));
+console.log(Math.ceil(-22 / 4 ));
