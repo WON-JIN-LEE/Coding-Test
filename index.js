@@ -15,52 +15,71 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `6
-1 2 3 4 5 6
-2 1 1 1`.split("\n");
-const N = +input[0];
-const numbers = input[1].split(" ").map(Number);
-const operator = input[2].split(" ").map(Number);
+const input = `0 3 5 4 6 9 2 7 8
+7 8 2 1 0 5 6 0 9
+0 6 0 2 7 8 1 3 5
+3 2 1 0 4 6 8 9 7
+8 0 4 9 1 3 5 0 6
+5 9 6 8 2 0 4 1 3
+9 1 7 6 5 2 0 8 0
+6 0 3 7 0 1 9 5 2
+2 5 8 3 9 4 7 6 0`.split("\n");
 
-const operObj = {
-    0: (oper1, oper2) => oper1 + oper2,
-    1: (oper1, oper2) => oper1 - oper2,
-    2: (oper1, oper2) => oper1 * oper2,
-    3: (oper1, oper2) => {
-      if (oper1 < 0) {
-        return -Math.floor(-oper1 / oper2);
-      }
-      return Math.floor(oper1 / oper2);
-    }, 
-  };
+const SIZE = 9;
+const boardMap = input.map(ele => ele.split(" ").map(Number));
+const zeroArr = findZero(boardMap);
+const N = +zeroArr.length;
+let answer = Array.from({ length :9},()=>[]);
+
+sudokuCheck(0);
+function sudokuCheck(cnt) {
+    //종료조건
+    if (cnt === N) {
+        console.log(boardMap.map(ele => ele.join(" ")).join("\n"));
+
+        process.exit(0);
+    }
+
+    let [zeroX, zeroY] = zeroArr[cnt];
+
+    for (let i = 1; i <= SIZE; i++) {
+        if (isPossible(zeroX, zeroY, i)) {
+            boardMap[zeroX][zeroY] = i;
+            sudokuCheck(cnt + 1);
+            boardMap[zeroX][zeroY] = 0;
+        }
+    }
+}
 
 
-const tmp = [];
-let min = Number.MAX_SAFE_INTEGER;
-let max = Number.MIN_SAFE_INTEGER;
-dfs(0);
-console.log(`${max}\n${min}`);
+function findZero(boradMap) {
+  const zeros = [];
+  for (let i = 0; i < SIZE; i++){
+    for (let j = 0; j <SIZE; j++) {
+      if (boradMap[i][j] === 0) zeros.push([i, j]);
+    }
+  }
+  return zeros;
+}
 
-function dfs(cnt) {
-  if (cnt === N - 1) {
-    
-    let sum = numbers[0];
-    tmp.forEach((ele, i) => {
-      let num = numbers[i + 1];
-      sum = operObj[ele](sum, num);
-    });
-
-    if (sum > max) max = sum;
-    if (sum < min) min = sum;
-    return;
+function isPossible(x, y, value) {
+  //row check  
+  for (let i = 0; i < SIZE; i++){
+    if(boardMap[x][i] === value) return false; 
   }
 
-  for (let i = 0; i < 4; i++){
-    if (operator[i] === 0) continue;
-    operator[i] -= 1;
-    tmp.push(i);
-    dfs(cnt + 1);
-    tmp.pop();
-    operator[i] += 1;
+  //col check  
+  for (let i = 0; i < SIZE; i++){
+    if(boardMap[i][y] === value) return false; 
   }
+
+  // 3 x 3 check
+  let threeX = Math.floor(x / 3) * 3;
+  let threeY = Math.floor(y / 3) * 3;
+  for (let i = threeX; i < threeX+3; i++) {
+    for (let j = threeY; j < threeY+3; j++) {
+      if (boardMap[i][j] === value) return false;
+    }
+  }
+  return true;
 }
