@@ -15,35 +15,33 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `2
-6
-22`.split("\n");
+const input = `1 1 1
+2 2 2
+10 4 6
+50 50 50
+-1 7 18
+-1 -1 -1`.split("\n");
+input.pop();
+const hash = {};
+const w = (a, b, c) => {
+  let key = `${a},${b},${c}`
 
-var cnt = input[0];
-var inputlist = input.slice(1);
- 
-const countFibonacci = n => {
-  const returnObj = {
-    zeroCount: [1, 0],
-    oneCount: [0,1]
+     if (hash[key]) return hash[key];
+  if (a <= 0 || b <= 0 || c <= 0) return 1;
+  if (a > 20 || b > 20 || c > 20) return w(20, 20, 20);
+  if (a < b && b < c) {
+    const retval = w(a, b, c - 1) + w(a, b - 1, c - 1) - w(a, b - 1, c);
+    hash[key] = retval;
+    return retval;
   }
- 
-  if (n <= 1) {
-    return returnObj  
-  }
- 
-  for (let i = 2; i < n+1; i++) {
-    returnObj.zeroCount.push(returnObj.zeroCount[i-1] + returnObj.zeroCount[i-2]);
-    returnObj.oneCount.push(returnObj.oneCount[i-1] + returnObj.oneCount[i-2]);
-  }
- 
-  return returnObj;
+
+  const retval = w(a - 1, b, c) + w(a - 1, b - 1, c) + w(a - 1, b, c - 1) - w(a - 1, b - 1, c - 1);
+  hash[key] = retval;
+  return retval;
 };
- 
-// 미리 40까지의 list를 생성
-const cache = countFibonacci(Math.max(...inputlist));
-console.log(cache);
-for(let i = 0; i < cnt; i++) {
-  num = inputlist[i];
-  console.log(`${cache.zeroCount[num]} ${cache.oneCount[num]}`);
-}
+
+
+
+
+
+console.log(w(250, 20, 20));
