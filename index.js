@@ -15,30 +15,31 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `6
-10
-20
-15
-25
-10
-20`.split("\n");
+const input = `8
+1 8
+3 9
+2 2
+4 1
+6 4
+10 10
+9 7
+7 6`.split("\n");
 const N = +input.shift();
-const arr = input.map(Number);
-const dp = [];
-dp[0] = arr[0];
-dp[1] = Math.max(arr[0] + arr[1], arr[1]);
-dp[2] = Math.max(arr[0] + arr[2], arr[1]+arr[2]);
+const numbers = input.map(e => e.split(' ').map(Number)).sort((a, b) => a[0] - b[0]);
+const dp = Array.from({ length: N }, () => 1);
+console.log(numbers);
 
 
-solution(N, arr);
+for (let i = 0; i < N; i++) { // A 1부터 10까지 순회하는 반복문
+    let cnt = 0;
 
-console.log(dp[N - 1]);
-
-
-function solution(N,arr) {
-
-    for (let i = 3; i < N; i++) {
-        dp[i] = Math.max(arr[i] + arr[i - 1] + dp[i - 3], arr[i] + dp[i - 2]);
+  for (let j = 0; j < i; j++) { // A 비교 지점부터 10까지 순회하는 반복문
+        if (numbers[i][1] > numbers[j][1]) {
+        cnt = Math.max(cnt, dp[j]);
+        }
     }
-    return;
+        dp[i] += cnt;
 }
+console.log(dp)
+
+console.log(N - Math.max(...dp))
