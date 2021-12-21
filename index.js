@@ -1,4 +1,4 @@
-// const input = require("fs").readFileSync("/dev/stdin").toString().split("\n"); 
+// const input = require("fs").readFileSync("/dev/stdin").toString().split("\n");
 
 // const readline = require("readline");
 
@@ -15,31 +15,27 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `8
-1 8
-3 9
-2 2
-4 1
-6 4
-10 10
-9 7
-7 6`.split("\n");
-const N = +input.shift();
-const numbers = input.map(e => e.split(' ').map(Number)).sort((a, b) => a[0] - b[0]);
-const dp = Array.from({ length: N }, () => 1);
-console.log(numbers);
+const input = `ACAYKP
+CAPCAK`.split("\n");
+const str1 = input[0].split("");
+const str2 = input[1].split("");
+const len = str1.length;
+const len2 = str2.length;
 
-
-for (let i = 0; i < N; i++) { // A 1부터 10까지 순회하는 반복문
-    let cnt = 0;
-
-  for (let j = 0; j < i; j++) { // A 비교 지점부터 10까지 순회하는 반복문
-        if (numbers[i][1] > numbers[j][1]) {
-        cnt = Math.max(cnt, dp[j]);
-        }
-    }
-        dp[i] += cnt;
+// 0으로 초기화
+const dp = Array.from(Array(1001), () => Array());
+// 모든 행, 열 0으로 초기화
+for (let i = 0; i <= len; i++) {
+  for (let j = 0; j <= len2; j++) {
+    dp[i][j] = 0;
+  }
 }
-console.log(dp)
 
-console.log(N - Math.max(...dp))
+for (let i = 1; i <= len; i++) {
+  for (let j = 1; j <= len2; j++) {
+    if (str1[i - 1] === str2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+    else dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+  }
+}
+
+console.log(dp[len][len2]);
