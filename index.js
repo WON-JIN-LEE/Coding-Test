@@ -15,27 +15,30 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `ACAYKP
-CAPCAK`.split("\n");
-const str1 = input[0].split("");
-const str2 = input[1].split("");
-const len = str1.length;
-const len2 = str2.length;
+const input = `4 7
+6 13
+4 8
+3 6
+5 12`.split("\n");
 
-// 0으로 초기화
-const dp = Array.from(Array(1001), () => Array());
-// 모든 행, 열 0으로 초기화
-for (let i = 0; i <= len; i++) {
-  for (let j = 0; j <= len2; j++) {
-    dp[i][j] = 0;
+const [N, K] = input.shift().split(" ").map(Number);
+const W = [0],
+  V = [0];
+const dp = Array.from({ length: N + 1 }, () =>
+  Array.from({ length: K + 1 }, () => 0)
+);
+input.forEach((v) => {
+  let temp = v.split(" ").map(Number);
+  W.push(temp[0]);
+  V.push(temp[1]);
+});
+
+for (let i = 1; i <= N; i++) {
+  for (let j = 0; j <= K; j++) {
+    if (j + W[i] <= K && dp[i][j] !== 0) {
+      dp[i][j + W[i]] = Math.max(dp[i - 1][j + W[i]], dp[i - 1][j] + V[i]);
+    }
   }
 }
 
-for (let i = 1; i <= len; i++) {
-  for (let j = 1; j <= len2; j++) {
-    if (str1[i - 1] === str2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
-    else dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
-  }
-}
-
-console.log(dp[len][len2]);
+console.log(dp[N][K]);
