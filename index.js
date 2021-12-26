@@ -21,24 +21,23 @@ const input = `4 7
 3 6
 5 12`.split("\n");
 
-const [N, K] = input.shift().split(" ").map(Number);
-const W = [0],
-  V = [0];
-const dp = Array.from({ length: N + 1 }, () =>
-  Array.from({ length: K + 1 }, () => 0)
-);
-input.forEach((v) => {
-  let temp = v.split(" ").map(Number);
-  W.push(temp[0]);
-  V.push(temp[1]);
-});
+const [len, max] = input[0].split(" ").map(Number);
 
-for (let i = 1; i <= N; i++) {
-  for (let j = 0; j <= K; j++) {
-    if (j + W[i] <= K && dp[i][j] !== 0) {
-      dp[i][j + W[i]] = Math.max(dp[i - 1][j + W[i]], dp[i - 1][j] + V[i]);
-    }
-  }
+const W = new Array(len + 1); // 무게
+const V = new Array(len + 1); // 가치
+const dp = new Array(max + 1).fill(0);
+
+for (let i = 1; i <= len; i++) {
+  const [w, v] = input[i].split(" ");
+  W[i] = +w;
+  V[i] = +v;
 }
 
-console.log(dp[N][K]);
+for (let i = 1; i <= len; i++) {
+  for (let j = max; j - W[i] >= 0; j--) {
+    console.log(j, dp[j], dp[j - W[i]] + V[i]);
+    dp[j] = Math.max(dp[j], dp[j - W[i]] + V[i]);
+    console.log(dp);
+  }
+}
+console.log(dp[max]);
