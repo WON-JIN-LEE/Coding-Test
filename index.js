@@ -15,29 +15,38 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4 7
-6 13
-4 8
-3 6
-5 12`.split("\n");
+const input =
+  `So when I die (the [first] I will see in (heaven) is a score list).
+[ first in ] ( first out ).
+Half Moon tonight (At least it is better than no Moon at all].
+A rope may form )( a trail in a maze.
+Help( I[m being held prisoner in a fortune cookie factory)].
+([ (([( [ ] ) ( ) (( ))] )) ]).
+ .
+.`.split("\n");
+input.pop();
 
-const [len, max] = input[0].split(" ").map(Number);
+const answer = [];
+const open = ["(", "["];
+const close = [")", "]"];
+for (let i = 0; i < input.length; i++) {
+  let isBool = false;
+  const stack = [];
+  let str = input[i];
 
-const W = new Array(len + 1); // 무게
-const V = new Array(len + 1); // 가치
-const dp = new Array(max + 1).fill(0);
-
-for (let i = 1; i <= len; i++) {
-  const [w, v] = input[i].split(" ");
-  W[i] = +w;
-  V[i] = +v;
-}
-
-for (let i = 1; i <= len; i++) {
-  for (let j = max; j - W[i] >= 0; j--) {
-    console.log(j, dp[j], dp[j - W[i]] + V[i]);
-    dp[j] = Math.max(dp[j], dp[j - W[i]] + V[i]);
-    console.log(dp);
+  for (let j = 0; j < str.length; j++) {
+    if (open.includes(str[j])) stack.push(str[j]);
+    else if (close.includes(str[j])) {
+      if (stack.pop() !== open[close.indexOf(str[j])]) {
+        answer.push("no");
+        isBool = true;
+        break;
+      }
+    }
   }
+
+  if (!isBool)
+    if (stack.length === 0) answer.push("yes");
+    else answer.push("no");
 }
-console.log(dp[max]);
+console.log(answer.join("\n"));
