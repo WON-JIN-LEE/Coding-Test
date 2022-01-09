@@ -15,38 +15,63 @@
 //     solution(input);
 //   process.exit();
 // });
-const input =
-  `So when I die (the [first] I will see in (heaven) is a score list).
-[ first in ] ( first out ).
-Half Moon tonight (At least it is better than no Moon at all].
-A rope may form )( a trail in a maze.
-Help( I[m being held prisoner in a fortune cookie factory)].
-([ (([( [ ] ) ( ) (( ))] )) ]).
- .
-.`.split("\n");
-input.pop();
+const input = `15
+push 1
+push 2
+front
+back
+size
+empty
+pop
+pop
+pop
+size
+empty
+pop
+push 3
+empty
+front`.split("\n");
 
-const answer = [];
-const open = ["(", "["];
-const close = [")", "]"];
-for (let i = 0; i < input.length; i++) {
-  let isBool = false;
-  const stack = [];
-  let str = input[i];
+let queue = [];
+let f = 0;
+let a = [];
+for (let i = 1; i <= input[0]; i++) {
+  const [k, b] = input[i].split(" ");
+  const length = queue.length;
 
-  for (let j = 0; j < str.length; j++) {
-    if (open.includes(str[j])) stack.push(str[j]);
-    else if (close.includes(str[j])) {
-      if (stack.pop() !== open[close.indexOf(str[j])]) {
-        answer.push("no");
-        isBool = true;
-        break;
+  switch (k) {
+    case "size":
+      a.push(length - f);
+      break;
+    case "pop":
+      if (f === length) {
+        a.push("-1");
+      } else {
+        a.push(queue[f]);
+        f++;
       }
-    }
+      break;
+    case "empty":
+      a.push(f === length ? 1 : 0);
+      break;
+    case "back":
+      if (f === length) {
+        a.push("-1");
+      } else {
+        a.push(queue[length - 1]);
+      }
+      break;
+    case "front":
+      if (f === length) {
+        a.push("-1");
+      } else {
+        a.push(queue[f]);
+      }
+      break;
+    case "push":
+      queue.push(b);
+      break;
   }
-
-  if (!isBool)
-    if (stack.length === 0) answer.push("yes");
-    else answer.push("no");
 }
-console.log(answer.join("\n"));
+
+console.log(a.join("\n"));
