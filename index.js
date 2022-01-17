@@ -32,46 +32,7 @@ push 3
 empty
 front`.split("\n");
 
-let queue = [];
-let f = 0;
-let a = [];
-for (let i = 1; i <= input[0]; i++) {
-  const [k, b] = input[i].split(" ");
-  const length = queue.length;
-
-  switch (k) {
-    case "size":
-      a.push(length - f);
-      break;
-    case "pop":
-      if (f === length) {
-        a.push("-1");
-      } else {
-        a.push(queue[f]);
-        f++;
-      }
-      break;
-    case "empty":
-      a.push(f === length ? 1 : 0);
-      break;
-    case "back":
-      if (f === length) {
-        a.push("-1");
-      } else {
-        a.push(queue[length - 1]);
-      }
-      break;
-    case "front":
-      if (f === length) {
-        a.push("-1");
-      } else {
-        a.push(queue[f]);
-      }
-      break;
-    case "push":
-      queue.push(b);
-      break;
-  }
-}
-
-console.log(a.join("\n"));
+const s = [];
+console.log(s.length);
+console.log(!s.length);
+console.log(!!s.length);
