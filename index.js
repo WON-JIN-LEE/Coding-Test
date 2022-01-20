@@ -33,6 +33,40 @@ empty
 front`.split("\n");
 
 const s = [];
-console.log(s.length);
-console.log(!s.length);
-console.log(!!s.length);
+let days = {
+  1: 31,
+  2: 28,
+  3: 31,
+  4: 30,
+  5: 31,
+  6: 30,
+  7: 31,
+  8: 31,
+  9: 30,
+  10: 31,
+  11: 30,
+  12: 31,
+};
+
+sol(11, 27);
+sol(6, 22);
+sol(1, 18);
+
+function sol(month, day) {
+  let result_m = month + 1;
+  let result_d = 98 - (days[month] - day);
+
+  while (1) {
+    result_d -= days[result_m];
+
+    result_m++;
+    if (result_m > 12) {
+      result_m %= 12;
+    }
+
+    if (result_d <= 31) {
+      break;
+    }
+  }
+  return;
+}
