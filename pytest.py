@@ -41,7 +41,7 @@ def solution2(bridge_length, weight, truck_weights):
 
 
 # 데크
-def solution3(bridge_length, weight, truck_weights):
+def solution(bridge_length, weight, truck_weights):
     time = 0
     weightOnBridge = 0
     # 큐 [트럭무게, 얘가 나갈 시간].
@@ -49,15 +49,19 @@ def solution3(bridge_length, weight, truck_weights):
     print(queue)
 
     waiting = deque(truck_weights)  # 대기 트럭 큐
-
+    #  대기 트럭, 다리를 건너는 트럭이 모두 0일 때 까지 다음 루프 반복
     while len(queue) > 0 or len(waiting) > 0:
+        
+        #   1. 현재 시간이, 큐 맨 앞의 차의 '나갈 시간'과 같다면 내보내주고, 다리 위 트럭 무게 합에서 빼준다.
         if queue[0][1] == time:
             weightOnBridge -= queue.popleft()[0]
 
+        # 2. 다리 위 트럭 무게 합 + 대기중인 트럭의 첫 무게가 감당 무게 이하면 다리 위 트럭 무게 업데이트, 큐 뒤에[트럭무게, 이 트럭이 나갈 시간] 추가.
         if len(waiting) > 0 and weightOnBridge + waiting[0] <= weight:
             weightOnBridge += waiting[0]
             queue.append([waiting.popleft(), time + bridge_length])
         else:
+            #   3. 다음 트럭이 못올라오는 상황이면 얼른 큐의 첫번째 트럭이 빠지도록 그 시간으로 점프한다. 참고: if 밖에서 1 더하기 때문에 -1 해줌
             if len(queue) > 0 and queue[0]:
                 time = queue[0][1]-1
         time += 1
@@ -113,8 +117,8 @@ if __name__ == '__main__':
 
     print(math.ceil(70/30))
 
-    # queue = solution3(2, 10, [7, 4, 5, 6])
-    # print("answer:", queue)
-
-    queue = solution4([93, 30, 55], [1, 30, 5])
+    queue = solution3(2, 10, [7, 4, 5, 6])
     print("answer:", queue)
+
+    # queue = solution4([93, 30, 55], [1, 30, 5])
+    # print("answer:", queue)

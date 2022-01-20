@@ -1,6 +1,5 @@
-# 원형 큐 디자인 [JavaScript, node.js]
+# 원형 큐 디자인 [Python]
 
-## 의사 코드
 
 ### py code
 ```py
