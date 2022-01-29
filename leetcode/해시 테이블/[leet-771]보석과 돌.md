@@ -1,4 +1,4 @@
-# 보석과 돌 [python]
+# [leet-771] 보석과 돌 [python]
 
 ## [문제](https://leetcode.com/problems/jewels-and-stones/) 
 

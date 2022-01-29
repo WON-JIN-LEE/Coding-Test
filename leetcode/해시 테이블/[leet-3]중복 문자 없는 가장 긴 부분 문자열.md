@@ -1,4 +1,4 @@
-# 중복 문자 없는 가장 긴 부분 문자열 [python]
+# [leet-3]중복 문자 없는 가장 긴 부분 문자열 [python]
 ## [문제](https://leetcode.com/problems/jewels-and-stones/)
 ### 의사코드
 1. 딕셔너리에는 문자인 키와 인덱스 값으로 이루어져있다.

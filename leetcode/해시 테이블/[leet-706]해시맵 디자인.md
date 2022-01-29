@@ -1,4 +1,4 @@
-# Top K Frequent Elements [python]
+# [leet-706] 해시맵 디자인 [python]
 ## [문제](https://leetcode.com/problems/design-hashmap)
 
 ### 의사코드

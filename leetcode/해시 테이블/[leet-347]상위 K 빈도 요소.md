@@ -1,4 +1,4 @@
-# Top K Frequent Elements [python]
+# [leet-347]상위 K 빈도 요소 [python]
 ## [문제](https://leetcode.com/problems/top-k-frequent-elements/)
 
 ### 의사코드
