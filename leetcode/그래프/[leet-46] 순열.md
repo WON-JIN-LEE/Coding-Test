@@ -1,4 +1,4 @@
-# Permutations [python]
+# [leet-46] 순열 [python]
 
 ## [문제](https://leetcode.com/problems/letter-combinations-of-a-phone-number/) 
 

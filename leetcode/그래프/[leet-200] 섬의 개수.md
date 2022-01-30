@@ -1,4 +1,4 @@
-# Number of Islands [python]
+# [leet-200] 섬의 개수 [python]
 
 ## [문제](https://leetcode.com/problems/number-of-islands/) 
 

@@ -1,4 +1,4 @@
-# Combinations [python]
+# [leet-77] 조합 [python]
 
 ## [문제](https://leetcode.com/problems/combinations/) 
 

@@ -1,4 +1,4 @@
-# Letter Combinations of a Phone Number [python]
+# [leet-17] 전화번호 문자조합 [python]
 
 ## [문제](https://leetcode.com/problems/letter-combinations-of-a-phone-number/) 
 
