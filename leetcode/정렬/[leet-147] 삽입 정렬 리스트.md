@@ -27,6 +27,5 @@ class Solution:
             # 필요한 경우에만 cur 포인터가 되돌아가도록 처리
             if head and cur.val> head.val:
                 cur = parent
-                
         return parent.next
 ```
