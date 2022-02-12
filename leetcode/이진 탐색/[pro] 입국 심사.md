@@ -24,7 +24,7 @@ def solution(n, times):
             if count >= n: break
         
         
-        # n명을 심사 할 수 있는 경우
+        # n명또는 그 이상의 사람들을 심사 할 수 있는 경우
         # 한 심사관에게 주어진 시간을 줄여본다.
         if count >=n:
             right = mid - 1
