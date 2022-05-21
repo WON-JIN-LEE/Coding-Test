@@ -15,58 +15,21 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `15
-push 1
-push 2
-front
-back
-size
-empty
-pop
-pop
-pop
-size
-empty
-pop
-push 3
-empty
-front`.split("\n");
+const input = `mirkovC4nizCC44
+C4`.split("\n");
 
-const s = [];
-let days = {
-  1: 31,
-  2: 28,
-  3: 31,
-  4: 30,
-  5: 31,
-  6: 30,
-  7: 31,
-  8: 31,
-  9: 30,
-  10: 31,
-  11: 30,
-  12: 31,
+
+const solution = (input) => {
+  input[0] = 1;  
 };
 
-sol(11, 27);
-sol(6, 22);
-sol(1, 18);
+const arr = [0, 1, 2, 3]
+console.log(arr);
 
-function sol(month, day) {
-  let result_m = month + 1;
-  let result_d = 98 - (days[month] - day);
+solution(arr);
 
-  while (1) {
-    result_d -= days[result_m];
+console.log(arr)
 
-    result_m++;
-    if (result_m > 12) {
-      result_m %= 12;
-    }
+let str = 'COMPURTR'
 
-    if (result_d <= 31) {
-      break;
-    }
-  }
-  return;
-}
+console.log(str.split('R'))
