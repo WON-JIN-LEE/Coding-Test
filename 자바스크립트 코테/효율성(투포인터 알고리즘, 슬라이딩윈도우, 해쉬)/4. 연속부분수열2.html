@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(m, arr){
+                let answer=0, sum=0, lp=0;
+               for(let rp=0;rp<arr.length;rp++){
+                    sum+= arr[rp];
+                    
+                    while(sum>m){
+                        sum -= arr[lp];
+                        lp+=1;
+                    }
+                
+                    answer+=(rp-lp+1);
+                }
+                return answer;
+            }
+            
+            let a=[1, 3, 1, 2, 3];
+            console.log(solution(5, a));
+        </script>
+    </body>
+</html>
