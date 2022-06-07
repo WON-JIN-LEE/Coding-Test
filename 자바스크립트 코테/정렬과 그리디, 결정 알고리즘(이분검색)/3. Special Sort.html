@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(arr){
+                let answer=arr;
+                for(let i=arr.length-1;i>=0;i--){
+                    for(let j=0;j<i;j++){
+                        if(arr[j] > arr[j+1])  [arr[j], arr[j+1]]=[arr[j+1],arr[j]];
+                        console.log(`i:${i}, ${arr} `)
+                    }     
+                }
+                return answer;
+            }
+
+            let arr=[1, 2, 3, -3, -2, 5, 6, -6];
+            console.log(solution(arr));
+        </script>
+    </body>
+</html>
+
+
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(arr){
+                let answer=[];
+                for(let x of arr){
+                    if(x<0) answer.push(x);
+                }
+                for(let x of arr){
+                    if(x>0) answer.push(x);
+                }
+                return answer;
+            }
+
+            console.log(solution(arr));
+        </script>
+    </body>
+</html>
