@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>출력결과</title>
+  </head>
+  <body>
+    <script>
+      function solution(size, arr) {
+        const answer = Array.from({ length: size }, () => 0);
+
+        for (let x of arr) {
+
+          if (answer.includes(x)) {
+            let preIdx = answer.indexOf(x);
+            if (preIdx !== 0) {
+              for (let i = preIdx; i > 0; i--) {
+                answer[i] = answer[i - 1];
+              }
+            }
+          } else {
+            for (let i = answer.length - 2; i >= 0; i--) {
+              if (answer[i] !== 0){
+                answer[i + 1] = answer[i];
+              }
+            }
+          }
+          answer[0] = x;
+          console.log(answer)
+        }
+
+        return answer;
+      }
+
+      let arr = [1, 2, 3, 2, 6, 2, 3, 5, 7];
+      console.log(solution(5, arr));
+    </script>
+  </body>
+</html>
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>출력결과</title>
+  </head>
+  <body>
+    <script>
+      function solution(size, arr) {
+        let answer = [];
+        arr.forEach((x) => {
+          let pos = -1;
+          for (let i = 0; i < size; i++) if (x === answer[i]) pos = i;
+          if (pos === -1) {
+            answer.unshift(x);
+            if (answer.length > size) answer.pop();
+          } else {
+            answer.splice(pos, 1);
+            answer.unshift(x);
+          }
+        });
+
+        return answer;
+      }
+
+      console.log(solution(5, arr));
+    </script>
+  </body>
+</html>
