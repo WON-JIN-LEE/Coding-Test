@@ -15,28 +15,34 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `mirkovC4nizCC44
-C4`.split("\n");
+const input = `4 11
+802
+743
+457
+539`.split("\n");
+const [K, N] = input.shift().split(" ");
+const LAN_arr = input.map(Number);
 
 
 
 
-// const inp =["1101110000", "1100001000", "1000011000", "0000000000", "0000100100", "1110101111"];
-const inp = ["111", "101", "111"];
-
-function solution(arr) {
-  let answer = arr;
-  for (let i = 0; i < arr.length; i++) {
-    let tmp = arr[i],
-      j;
-    for (j = i - 1; j >= 0; j--) {
-      if (arr[j] > tmp) arr[j + 1] = arr[j];
-      else break;
+function solution(N, arr) {
+  let answer = 0;
+  let lt = 1; rt = Math.max(...arr);
+  while (lt <= rt) {
+    let mid = parseInt((lt + rt) / 2);
+    let sum = 0;
+    for (let x of arr) {
+       sum += Math.floor(x/mid);
     }
-    arr[j + 1] = tmp;
+    if (N <= sum) {
+      answer = Math.max(answer, mid);
+      lt = mid + 1;
+    } else {
+      rt = mid-1;
+    }
   }
   return answer;
 }
 
-let arr = [11, 7, 5, 6, 10, 9];
-console.log(solution(arr));
+console.log(solution(N, LAN_arr));
