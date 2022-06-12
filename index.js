@@ -15,34 +15,24 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4 11
-802
-743
-457
-539`.split("\n");
-const [K, N] = input.shift().split(" ");
-const LAN_arr = input.map(Number);
+const input = `10
+6 3 2 10 10 10 -10 -10 7 3
+8
+10 9 -5 2 3 4 5 -10`.split("\n");
+const [N, A, M, B] = input.map(str => str.split(" ").map(Number))
+A.sort((a, b) => a - b);
 
 
-
-
-function solution(N, arr) {
-  let answer = 0;
-  let lt = 1; rt = Math.max(...arr);
-  while (lt <= rt) {
-    let mid = parseInt((lt + rt) / 2);
-    let sum = 0;
-    for (let x of arr) {
-       sum += Math.floor(x/mid);
-    }
-    if (N <= sum) {
-      answer = Math.max(answer, mid);
-      lt = mid + 1;
-    } else {
-      rt = mid-1;
-    }
-  }
-  return answer;
+const numberCountMap = new Map();
+for (let num of A) {
+  if (numberCountMap.has(num)) numberCountMap.set(num, numberCountMap.get(num) + 1);
+  else numberCountMap.set(num, 1);
 }
 
-console.log(solution(N, LAN_arr));
+const answer = [];
+for (let num of B) {
+  let getCount = numberCountMap.get(num) || 0;
+  answer.push(getCount)
+}
+console.log(answer.join(" "))
+
