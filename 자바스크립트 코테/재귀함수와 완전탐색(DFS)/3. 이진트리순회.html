@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            
+            function preorderFunc(n){
+                let answer="";
+                    
+                function DFS(L){
+                    if(L>=8) return;
+
+                    answer += L
+                    answer +=' ';
+                    DFS(2*L) 
+                    DFS(2*L+1)
+
+                }
+                DFS(n);
+                return answer;
+            }
+
+             function inorderFunc(n){
+                let answer="";
+                    
+                function DFS(L){
+                    if(L>=8) return;
+                    DFS(2*L) 
+                    answer += L
+                    answer +=' ';
+                    DFS(2*L+1)
+
+                }
+                DFS(n);
+                return answer;
+            }
+
+             function postorderFunc(n){
+                let answer="";
+                    
+                function DFS(L){
+                    if(L>=8) return;
+                    DFS(2*L) 
+                    DFS(2*L+1)
+                    answer += L
+                    answer +=' ';
+                  
+
+                }
+                DFS(n);
+                return answer;
+            }
+            console.log(preorderFunc(1)); //전위순회 출력 : 1 2 4 5 3 6 7
+            console.log(inorderFunc(1)); //중위순회 출력 : 4 2 5 1 6 3 7
+            console.log(postorderFunc(1));//후위순회 출력 : 4 5 2 6 7 3 1
+        </script>
+    </body>
+</html>
+
