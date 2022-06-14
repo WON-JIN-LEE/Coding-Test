@@ -10,7 +10,7 @@
                 let answer="";
                     
                 function DFS(L){
-                    if(L>=8) return;
+                    if(L>7) return;
 
                     answer += L
                     answer +=' ';
@@ -26,7 +26,7 @@
                 let answer="";
                     
                 function DFS(L){
-                    if(L>=8) return;
+                    if(L>7) return;
                     DFS(2*L) 
                     answer += L
                     answer +=' ';
@@ -41,7 +41,7 @@
                 let answer="";
                     
                 function DFS(L){
-                    if(L>=8) return;
+                    if(L>7) return;
                     DFS(2*L) 
                     DFS(2*L+1)
                     answer += L

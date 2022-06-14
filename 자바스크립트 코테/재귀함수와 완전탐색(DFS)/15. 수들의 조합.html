@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(n, k, arr, m){         
+                let answer=[]
+                let count=0;
+                let p =[];
+
+                function DFS(L, sum, index){
+                if(L===k){
+                    if(sum % m===0) {
+                        answer.push(p.slice());
+                        count++;
+                    }
+                    return;
+                }
+
+                for(let i=index;i<n;i++){
+                    p.push(arr[i]);
+                    DFS(L+1, sum+arr[i], i+1);
+                    p.pop();
+
+                }
+
+               }
+
+               DFS(0,0,0)
+               return[ answer, count];
+            }
+
+            let arr=[2, 4, 5, 8, 12];
+            let result = solution(5, 3, arr, 6);
+            console.log(result);
+        </script>
+    </body>
+</html>
+
+
+
+
+
+

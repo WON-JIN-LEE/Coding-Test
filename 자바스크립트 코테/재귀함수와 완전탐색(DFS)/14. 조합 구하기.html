@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>출력결과</title>
+    </head>
+    <body>
+        <script>
+            function solution(n, m){         
+                let answer=[]
+               let p =[];
+                function DFS(L,index){
+                if(L===m){
+                    answer .push(p.slice());
+                    return;
+                }
+
+                for(let i=index;i<=n;i++){
+                    p.push(i);
+                    DFS(L+1, i+1);
+                    p.pop();
+                }
+
+               }
+
+               DFS(0,1)
+               return answer;
+            }
+
+            console.log(solution(4, 2));
+        </script>
+    </body>
+</html>
