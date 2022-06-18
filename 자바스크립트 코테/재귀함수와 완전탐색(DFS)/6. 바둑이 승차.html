@@ -9,15 +9,11 @@
                 let n = arr.length;
                 let answer =0;
                 function DFS(L,sum){
-                    if(L===n){
-                        if(sum<c) {
-                            answer = Math.max(answer,sum);
-                        }
-                        return;
-                    }
+                    if(sum<c) return;
+                    if(L===n) answer = Math.max(answer,sum);
 
-                DFS(L+1,sum+arr[L])
-                DFS(L+1,sum)
+                    DFS(L+1,sum+arr[L])
+                    DFS(L+1,sum)
 
                 }
 
