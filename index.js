@@ -15,24 +15,28 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `10
-6 3 2 10 10 10 -10 -10 7 3
-8
-10 9 -5 2 3 4 5 -10`.split("\n");
-const [N, A, M, B] = input.map(str => str.split(" ").map(Number))
-A.sort((a, b) => a - b);
+const input = `4 7
+6 13
+4 8
+3 6
+5 12`.split("\n");
 
+const [len, max] = input[0].split(" ").map(Number);
 
-const numberCountMap = new Map();
-for (let num of A) {
-  if (numberCountMap.has(num)) numberCountMap.set(num, numberCountMap.get(num) + 1);
-  else numberCountMap.set(num, 1);
+const W = new Array(len + 1); // 무게
+const V = new Array(len + 1); // 가치
+const dp = new Array(max + 1).fill(0);
+
+input.sort((a, b) => a.split(" ") - b.split(" "))
+for (let i = 1; i <= len; i++) {
+  const [w, v] = input[i].split(" ");
+  W[i] = +w;
+  V[i] = +v;
 }
 
-const answer = [];
-for (let num of B) {
-  let getCount = numberCountMap.get(num) || 0;
-  answer.push(getCount)
+for (let i = 1; i <= len; i++) {
+  for (let j = W[i]; j < max + 1; j++) {
+    dp[j] = Math.max(dp[j], dp[j - W[i]] + V[i]);
+  }
 }
-console.log(answer.join(" "))
-
+console.log(dp[max]);
