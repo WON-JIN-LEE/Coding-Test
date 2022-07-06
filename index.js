@@ -15,28 +15,24 @@
 //     solution(input);
 //   process.exit();
 // });
-const input = `4 7
-6 13
-4 8
-3 6
-5 12`.split("\n");
+const input = `15 12`.split("\n");
+const [n, k] = input[0].split(' ').map(Number);
+let arr = [];
 
-const [len, max] = input[0].split(" ").map(Number);
+for (let i = 2; i <= n; i++) arr.push(i);
 
-const W = new Array(len + 1); // 무게
-const V = new Array(len + 1); // 가치
-const dp = new Array(max + 1).fill(0);
+let count = 0;
+let answer = 0;
+while (count < k) {
+  let prime = arr[0];
 
-input.sort((a, b) => a.split(" ") - b.split(" "))
-for (let i = 1; i <= len; i++) {
-  const [w, v] = input[i].split(" ");
-  W[i] = +w;
-  V[i] = +v;
+  arr=arr.filter(v => {
+    if(v % prime !==0) return true;
+    
+    count += 1;
+    if (count === k) answer = v;
+    return false;
+  })
 }
 
-for (let i = 1; i <= len; i++) {
-  for (let j = W[i]; j < max + 1; j++) {
-    dp[j] = Math.max(dp[j], dp[j - W[i]] + V[i]);
-  }
-}
-console.log(dp[max]);
+console.log(answer)
